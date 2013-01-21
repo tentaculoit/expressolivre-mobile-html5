@@ -1,0 +1,23 @@
+{
+  "id": "1",
+  "result": {
+    "auth": "e6d552a3808f41533fe8141f73f7c186:4fac15058e2ca3213e4251d81a3d3a8e",
+    "profile": [
+      {
+        "contactID": "uid=demo,ou=ADMIN,dc=demo,dc=expressolivre,dc=org",
+        "contactMails": [
+          "demo@demo.expressolivre.org"
+        ],
+        "contactPhones": [
+          "(11)1111-1111"
+        ],
+        "contactFullName": "Usuario de Demonstracao",
+        "contactApps": [
+          "calendar",
+          "catalog",
+          "mail"
+        ]
+      }
+    ]
+  }
+}

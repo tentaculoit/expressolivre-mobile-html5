@@ -1,0 +1,167 @@
+[
+            {
+            "folderName": "Caixa de Entrada",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 5,
+            "folderID": "INBOX",
+            "folderType": 0,
+            "diskSizeUsed": "2129",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Drafts",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 3,
+            "folderID": "INBOX/Drafts",
+            "folderType": 4,
+            "diskSizeUsed": "1001",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Sent",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 5,
+            "folderID": "INBOX/Sent",
+            "folderType": 1,
+            "diskSizeUsed": "2306",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Trash",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 2,
+            "folderID": "INBOX/Trash",
+            "folderType": 3,
+            "diskSizeUsed": "1300",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "JairTeste",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "INBOX/JairTeste",
+            "folderType": "5",
+            "diskSizeUsed": "0",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Teste de Pasta",
+            "folderParentID": "",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "INBOX/Teste de Pasta",
+            "folderType": "5",
+            "diskSizeUsed": "0",
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "comp",
+            "folderParentID": "user",
+            "folderHasChildren": 1,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/comp",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Drafts",
+            "folderParentID": "user/comp",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 1,
+            "folderID": "user/comp/Drafts",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Sent",
+            "folderParentID": "user/comp",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 4,
+            "folderID": "user/comp/Sent",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Trash",
+            "folderParentID": "user/comp",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 1,
+            "folderID": "user/comp/Trash",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "bla bla",
+            "folderParentID": "user/comp",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/comp/bla bla",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "setic.agenda",
+            "folderParentID": "user",
+            "folderHasChildren": 1,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/setic.agenda",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Drafts",
+            "folderParentID": "user/setic.agenda",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/setic.agenda/Drafts",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Sent",
+            "folderParentID": "user/setic.agenda",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/setic.agenda/Sent",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          },
+          {
+            "folderName": "Trash",
+            "folderParentID": "user/setic.agenda",
+            "folderHasChildren": 0,
+            "qtdUnreadMessages": 0,
+            "qtdMessages": 0,
+            "folderID": "user/setic.agenda/Trash",
+            "folderType": "6",
+            "diskSizeUsed": null,
+            "diskSizePercent": 0
+          }
+]
