@@ -29,8 +29,8 @@ Ext.define("ExpressoMobile.view.Login", {
 					},
 					{
 						xtype: 'textfield',
-						id: 'userNameTextField',
-						name : 'userNameTextField',
+						id: 'user',
+						name : 'user',
 						label: 'Usuário',
 						value: 'demo',
 						allowBlank:false,
@@ -38,8 +38,8 @@ Ext.define("ExpressoMobile.view.Login", {
 					},
 					{
 						xtype: 'passwordfield',
-						id: 'passwordTextField',
-						name : 'passwordTextField',
+						id: 'password',
+						name : 'password',
 						label: 'Senha',
 						value: 'demo22',
 					 	required: true
@@ -47,7 +47,7 @@ Ext.define("ExpressoMobile.view.Login", {
 					{
 						xtype: 'textfield',
 						id: 'serverurl',
-						name : 'server',
+						name : 'serverurl',
 						label: 'Servidor',
 						value: 'http://demo.expressolivre.org'
 					},
@@ -76,11 +76,7 @@ Ext.define("ExpressoMobile.view.Login", {
 		}]
 	},
 	onLogInButtonTap: function () {
-		var me = this,
-		usernameField = me.down('#userNameTextField'),
-        passwordField = me.down('#passwordTextField'),
-        username = usernameField.getValue(),
-        password = passwordField.getValue();
-		me.fireEvent('signInCommand', me, username, password);
+		var me = this;
+		me.fireEvent('signInCommand', me);
 	}
 });

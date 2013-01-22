@@ -17,53 +17,44 @@ Ext.define('ExpressoMobile.controller.Login', {
 	        }
         }
     },
-    onSignInCommand: function (view, username, password) {
+    onSignInCommand: function (view) {
     	var me = this;
-    	console.log('Username: ' + username + '\n' + 'Password: ' + password);
-    	if (username.length === 0 || password.length === 0) {
+        var urlLogin = view.down('#serverurl').getValue()+"/api/rest/Login";
+    	if (view.down('#user').getValue().length === 0 || view.down('#password').getValue().length === 0) {
     		me.singInFailure('Usuário e Senha são obrigatórios');
     		return;
 		}
-        var json = Ext.JSON.encode("user:"+username);
-        console.log(json);
     	view.setMasked({
 	        xtype: 'loadmask',
 	        message: 'Autenticando...'
     	});
         Ext.Ajax.request({
-            url: 'http://demo.expressolivre.org/api/rest/Login',
+            url: urlLogin,
             method: 'POST',
             timeout: 5000,
             params: {
                 id:1,
-                params:"{\"user\":\"demo\",\"password\":\"demo22\"}"
+                params:Ext.JSON.encode(view.getValues())
             },
             success: function (response) {
 
-                /*var loginResponse = Ext.JSON.decode(response.responseText);
+                var loginResponse = Ext.JSON.decode(response.responseText);
 
-                if (loginResponse.success === "true") {
-                    // The server will send a token that can be used throughout the app to confirm that the user is authenticated.
-                    me.sessionToken = loginResponse.sessionToken;
-                    me.signInSuccess();     //Just simulating success.
-                } else {
-                    me.singInFailure(loginResponse.message);
-                }*/
                 view.setMasked(false);
-                me.signInSuccess();
+
+                if (loginResponse.error) {
+                   me.singInFailure(loginResponse.error.message); 
+                } else {
+                    me.sessionToken=loginResponse.result.auth;
+                    me.signInSuccess();
+                }
             },
             failure: function (response) {
                 view.setMasked(false);
                 me.sessionToken = null;
-                me.singInFailure('Login failed. Please try again later.');
+                me.singInFailure('Problemas ao conectar o servidor '+view.down('#serverurl').getValue());
             }
         });
-    	// realizar o processo de autenticação
-    	/*var task = Ext.create('Ext.util.DelayedTask', function () {
-            view.setMasked(false);
-    		me.signInSuccess();
-        });
-    	task.delay(1000);*/
     },
     onSignOffCommand: function () {
     	Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
