@@ -20,6 +20,7 @@ Ext.define('ExpressoMobile.controller.Login', {
     onSignInCommand: function (view) {
     	var me = this;
         var urlLogin = view.down('#serverurl').getValue()+"/api/rest/Login";
+        console.log(urlLogin);
     	if (view.down('#user').getValue().length === 0 || view.down('#password').getValue().length === 0) {
     		me.singInFailure('Usuário e Senha são obrigatórios');
     		return;

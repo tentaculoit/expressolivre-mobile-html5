@@ -9,7 +9,8 @@ Ext.define('ExpressoMobile.store.Folders', {
 	        type: 'ajax',
 	        url: 'data/folders.json',
 	        reader: {
-		        type: 'json'
+		        type: 'json',
+                rootProperty: 'result.folders'
 		    }
     	}	
 	}
