@@ -61,6 +61,8 @@ Ext.define('ExpressoMobile.controller.Login', {
     	Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
 	},
     signInSuccess: function () {
+        Ext.getStore('Folders').load();
+        console.log(Ext.getStore('Folders'));
     	Ext.Viewport.animateActiveItem(Ext.getCmp('mainForm'),{ type: 'slide', direction: 'left' });
 	},
 	singInFailure: function (message) {
