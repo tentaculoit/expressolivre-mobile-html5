@@ -14,7 +14,7 @@ Ext.application({
 
     views: ['Login', 'Main', 'FolderList'],
     controllers:['Login','Email'],
-    models: ['Folder'],    
+    models: ['Folder','FolderSearch'],    
     stores: ['Folders'],
 
     icon: {

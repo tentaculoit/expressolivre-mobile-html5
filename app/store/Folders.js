@@ -9,7 +9,7 @@ Ext.define('ExpressoMobile.store.Folders', {
     	autoLoad: false,
     	proxy: {
 	        type: 'ajax',
-	        url: 'http://demo.expressolivre.org/api/rest/Mail/Folders',
+            url: 'http://demo.expressolivre.org.br/api/rest/Mail/Folders',
             actionMethods: {
                 create: 'POST',
                 read: 'POST',
@@ -18,7 +18,7 @@ Ext.define('ExpressoMobile.store.Folders', {
             },
             extraParams: {
                 id: 1,
-                params: "{\"auth\":\"5315b25f4b6307a26207bdd63f9a99ba:7b4492e4596194130bb6e9e9e4b64543\",\"folderID\":\"\",\"search\":\"\"}"
+                params: ''
             },
 	        reader: {
 		        type: 'json',

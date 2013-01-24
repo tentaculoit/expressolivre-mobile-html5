@@ -1,7 +1,9 @@
 Ext.define('ExpressoMobile.controller.Login', {
     extend: 'Ext.app.Controller',
     requires: [
-		'Ext.util.DelayedTask'
+		'Ext.util.DelayedTask',
+        'ExpressoMobile.model.FolderSearch',
+        'ExpressoMobile.store.Folders'
 	],
     config: {
         refs: {
@@ -19,7 +21,8 @@ Ext.define('ExpressoMobile.controller.Login', {
     },
     onSignInCommand: function (view) {
     	var me = this;
-        var urlLogin = view.down('#serverurl').getValue()+"/api/rest/Login";
+        me.serverUrl=view.down('#serverurl').getValue();
+        var urlLogin = me.serverUrl+"/api/rest/Login";
         console.log(urlLogin);
     	if (view.down('#user').getValue().length === 0 || view.down('#password').getValue().length === 0) {
     		me.singInFailure('Usuário e Senha são obrigatórios');
@@ -61,8 +64,15 @@ Ext.define('ExpressoMobile.controller.Login', {
     	Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
 	},
     signInSuccess: function () {
-        Ext.getStore('Folders').load();
-        console.log(Ext.getStore('Folders'));
+        var folderStore = Ext.getStore('Folders');
+        console.log(folderStore);
+        console.log(this.sessionToken);
+        var folderSearch = Ext.create('ExpressoMobile.model.FolderSearch', {
+            auth:this.sessionToken,
+        });
+        folderStore.getProxy().setUrl(this.serverUrl+"/api/rest/Mail/Folders");
+        folderStore.getProxy().setExtraParam('params', Ext.JSON.encode(folderSearch));        
+        folderStore.load();
     	Ext.Viewport.animateActiveItem(Ext.getCmp('mainForm'),{ type: 'slide', direction: 'left' });
 	},
 	singInFailure: function (message) {
