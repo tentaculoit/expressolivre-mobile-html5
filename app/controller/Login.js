@@ -3,7 +3,8 @@ Ext.define('ExpressoMobile.controller.Login', {
     requires: [
 		'Ext.util.DelayedTask',
         'ExpressoMobile.model.FolderSearch',
-        'ExpressoMobile.store.Folders'
+        'ExpressoMobile.store.Folders',
+        'ExpressoMobile.model.User'
 	],
     config: {
         refs: {
@@ -42,31 +43,30 @@ Ext.define('ExpressoMobile.controller.Login', {
             },
             success: function (response) {
 
-                var loginResponse = Ext.JSON.decode(response.responseText);
-
+                ExpressoMobile.app.logedUser = Ext.JSON.decode(response.responseText);
+                console.log(ExpressoMobile.app.logedUser);
                 view.setMasked(false);
 
-                if (loginResponse.error) {
-                   me.singInFailure(loginResponse.error.message); 
+                if (ExpressoMobile.app.logedUser.error) {
+                   me.singInFailure(ExpressoMobile.app.logedUser.error.message); 
                 } else {
-                    me.sessionToken=loginResponse.result.auth;
                     me.signInSuccess();
                 }
             },
-            failure: function (response) {
+            failure: function (response) {  
                 view.setMasked(false);
-                me.sessionToken = null;
+                ExpressoMobile.app.invalidateSession();
                 me.singInFailure('Problemas ao conectar o servidor '+ExpressoMobile.app.serverUrl);
             }
         });
     },
     onSignOffCommand: function () {
+        var me = this;
         var urlLogout = ExpressoMobile.app.serverUrl+"/api/rest/Logout";
         console.log(urlLogout);
 
-        //Alterar para o model de usuário qdo criado, usando o foldersearch apenas pela variavel auth
-        var folderSearch = Ext.create('ExpressoMobile.model.FolderSearch', {
-            auth:this.sessionToken,
+        var user = Ext.create('ExpressoMobile.model.User', {
+            auth:ExpressoMobile.app.logedUser.result.auth,
         });
         Ext.Ajax.request({
             url: urlLogout,
@@ -74,21 +74,10 @@ Ext.define('ExpressoMobile.controller.Login', {
             timeout: 5000,
             params: {
                 id:1,
-                params:Ext.JSON.encode(folderSearch)
+                params:Ext.JSON.encode(user)
             },
             success: function (response) {
-
-                /*var loginResponse = Ext.JSON.decode(response.responseText);
-
-                view.setMasked(false);
-
-                if (loginResponse.error) {
-                   me.singInFailure(loginResponse.error.message); 
-                } else {
-                    me.sessionToken=loginResponse.result.auth;
-                    me.signInSuccess();
-                }*/
-                Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
+                me.singOffSucess();
             },
             failure: function (response) {
                 me.singInFailure('Problemas ao conectar o servidor '+ExpressoMobile.app.serverUrl);
@@ -97,17 +86,23 @@ Ext.define('ExpressoMobile.controller.Login', {
 	},
     signInSuccess: function () {
         var folderStore = Ext.getStore('Folders');
+        var folderSearchUrl = ExpressoMobile.app.serverUrl+"/api/rest/Mail/Folders";
         console.log(folderStore);
-        console.log(this.sessionToken);
+        console.log(ExpressoMobile.app.logedUser.result.auth);
+        console.log(folderSearchUrl);
         var folderSearch = Ext.create('ExpressoMobile.model.FolderSearch', {
-            auth:this.sessionToken,
+            auth:ExpressoMobile.app.logedUser.result.auth,
         });
-        folderStore.getProxy().setUrl(ExpressoMobile.app.serverUrl+"/api/rest/Mail/Folders");
+        folderStore.getProxy().setUrl(folderSearchUrl);
         folderStore.getProxy().setExtraParam('params', Ext.JSON.encode(folderSearch));        
         folderStore.load();
     	Ext.Viewport.animateActiveItem(Ext.getCmp('mainForm'),{ type: 'slide', direction: 'left' });
 	},
 	singInFailure: function (message) {
 		Ext.Msg.alert('Falha de Login', message, Ext.emptyFn);
-	}
+	},
+    singOffSucess: function () {
+        ExpressoMobile.app.invalidateSession();
+        Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
+    }
 });

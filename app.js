@@ -9,6 +9,7 @@ Ext.application({
     name: 'ExpressoMobile',
 
     serverUrl: null,
+    logedUser: null,
 
     requires: [
         'Ext.MessageBox'
@@ -16,7 +17,7 @@ Ext.application({
 
     views: ['Login', 'Main', 'FolderList'],
     controllers:['Login','Email'],
-    models: ['Folder','FolderSearch'],    
+    models: ['Folder','FolderSearch','User'],    
     stores: ['Folders'],
 
     icon: {
@@ -35,6 +36,11 @@ Ext.application({
         '748x1024': 'resources/startup/748x1024.png',
         '1536x2008': 'resources/startup/1536x2008.png',
         '1496x2048': 'resources/startup/1496x2048.png'
+    },
+
+    invalidateSession:function() {
+        serverUrl=null;
+        logedUser=null;
     },
 
     launch: function() {
