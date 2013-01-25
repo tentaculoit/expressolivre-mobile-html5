@@ -8,6 +8,8 @@ Ext.Loader.setPath({
 Ext.application({
     name: 'ExpressoMobile',
 
+    serverUrl: null,
+
     requires: [
         'Ext.MessageBox'
     ],
