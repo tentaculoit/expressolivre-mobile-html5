@@ -32,7 +32,7 @@ Ext.define("ExpressoMobile.view.Login", {
 						id: 'user',
 						name : 'user',
 						label: 'Usuário',
-						value: 'demo',
+						value: 'iphone.prodeb',
 						allowBlank:false,
 						required: true
 					},
@@ -41,7 +41,7 @@ Ext.define("ExpressoMobile.view.Login", {
 						id: 'password',
 						name : 'password',
 						label: 'Senha',
-						value: 'demo22',
+						value: 'iphone',
 					 	required: true
 					},
 					{
@@ -49,7 +49,7 @@ Ext.define("ExpressoMobile.view.Login", {
 						id: 'serverurl',
 						name : 'serverurl',
 						label: 'Servidor',
-						value: 'http://demo.expressolivre.org'
+						value: 'http://expresso.prodeb.ba.gov.br'
 					},
 					{
 						xtype: 'togglefield',
