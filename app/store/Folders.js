@@ -14,7 +14,7 @@ Ext.define('ExpressoMobile.store.Folders', {
                 create: 'POST',
                 read: 'POST',
                 update: 'POST',
-                delete: 'POST'
+                destroy: 'POST'
             },
             extraParams: {
                 id: 1,
