@@ -49,7 +49,7 @@ Ext.define("ExpressoMobile.view.Login", {
 						id: 'serverurl',
 						name : 'serverurl',
 						label: 'Servidor',
-						value: 'http://expresso.prodeb.ba.gov.br'
+						value: 'http://expresso.prodeb.gov.br'
 					},
 					{
 						xtype: 'togglefield',

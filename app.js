@@ -1,6 +1,7 @@
 //<debug>
 Ext.Loader.setPath({
     'Ext': 'touch/src',
+    'Ext.ux': './ux',
     'ExpressoMobile': 'app'
 });
 //</debug>
@@ -15,10 +16,10 @@ Ext.application({
         'Ext.MessageBox'
     ],
 
-    views: ['Login', 'Main', 'FolderList'],
+    views: ['Login', 'Main', 'FolderList','MailList'],
     controllers:['Login','Email'],
-    models: ['Folder','FolderSearch','User'],    
-    stores: ['Folders'],
+    models: ['Folder','FolderSearch','User','MailSearch','Mail'],
+    // stores: ['Folders'],
 
     icon: {
         '57': 'resources/icons/Icon.png',
@@ -49,9 +50,6 @@ Ext.application({
 
         // Initialize the Login view
         Ext.Viewport.add(Ext.create('ExpressoMobile.view.Login'));
-        Ext.Viewport.add(Ext.create('ExpressoMobile.view.Main'));
-        Ext.Viewport.add(Ext.create('ExpressoMobile.view.FolderList'));
-
     },
 
     onUpdated: function() {
