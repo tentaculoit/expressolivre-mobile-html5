@@ -3,13 +3,6 @@ Ext.define('ExpressoMobile.view.MailList', {
     xtype: 'mailList',
     requires: ['ExpressoMobile.store.Mails'],
 
-    // initialize: function() {
-    //     this.callParent(arguments);
-
-    //     var mailStore = Ext.getStore('Mails');
-    //     mailStore.load();
-    // },
-
     config: {
         loadingText: "Carregando Lista de Emails...",
         emptyText: 'Nenhum email encontrado',
@@ -37,7 +30,37 @@ Ext.define('ExpressoMobile.view.MailList', {
         onItemDisclosure: true,
         listeners: {
             itemsingletap: function (list, idx, target, record, evt) {
-                console.log(record.data)
+                var mailView = Ext.getCmp('mailView');
+
+                if(mailView) {
+                    Ext.getCmp('mailViewPanel').setHtml(record.get('msgSubject'));
+                    Ext.Viewport.animateActiveItem(mailView,{ type: 'slide', direction: 'left' });
+                } else {
+                    Ext.Viewport.add(Ext.create('Ext.Container', {
+                        id: "mailView",
+                        control: {
+                          '#backButton' : {
+                            tap: function(btn) {
+                              Ext.Viewport.animateActiveItem(Ext.getCmp('mainView'),{ type: 'slide', direction: 'right' });
+                            }
+                          }
+                        },
+                        items: [{
+                            docked: 'top',
+                            xtype: 'titlebar',
+                            items: [{
+                                xtype: 'button',
+                                text: 'Voltar',
+                                itemId: 'backButton'
+                            }]
+                        }, {
+                            xtype: 'panel',
+                            id: 'mailViewPanel',
+                            html: record.get('msgSubject')
+                        }]
+                    }));
+                    Ext.Viewport.animateActiveItem(Ext.getCmp('mailView'),{ type: 'slide', direction: 'left' });
+                }
             }
         }
     }

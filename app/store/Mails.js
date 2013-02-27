@@ -9,9 +9,6 @@ Ext.define('ExpressoMobile.store.Mails', {
     constructor: function() {
         this.callParent(arguments);
         this.getProxy().setUrl(ExpressoMobile.app.serverUrl + "/api/rest/Mail/Messages");
-        // this.getProxy().setExtraParam('params', Ext.JSON.encode(Ext.create('ExpressoMobile.model.MailSearch', {
-        //     auth: ExpressoMobile.app.logedUser.result.auth
-        // })));
         this.getProxy().setExtraParam('id', 1);
     },
 
