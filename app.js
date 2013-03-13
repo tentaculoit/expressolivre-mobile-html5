@@ -13,7 +13,8 @@ Ext.application({
     logedUser: null,
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'Ext.ux.slidenavigation.View'
     ],
 
     views: ['Login', 'Main', 'FolderList','MailList'],

@@ -5,17 +5,40 @@ Ext.define('ExpressoMobile.controller.Login', {
   ],
   config: {
     refs: {
-      mainContainerView: '#mainContainerView',
-      loginForm: '#loginForm'
+      // mainContainerView: '#mainContainerView',
+      // loginForm: 'loginForm',
+      loginButton: 'button[id=loginButton]'
+      // mainContainerView: '#mainContainerView button[id=logoutButton]'
     },
     control: {
-      loginForm: {
-        login: 'doLogin'
-      },
-      mainContainerView: {
-        logout: 'doLogout'
+      // application: {
+      //   logout: 'doLogout'
+      // },
+      loginButton: {
+        tap: function(btn) {
+          var values = btn.getParent().getValues();
+          this.doLogin(btn.getParent(), values);
+        }
       }
+
+      // loginForm: {
+      //   login: 'doLogin'
+      // },
+      // mainContainerView: {
+      //   logout: 'doLogout'
+      // }
+    },
+
+    listeners : {
+      'logout' : 'doLogout'
     }
+  },
+
+  init: function() {
+    this.getApplication().on({
+      logout: 'doLogout',
+      scope: this
+    });
   },
 
   doLogin: function (view, values) {
@@ -100,6 +123,8 @@ Ext.define('ExpressoMobile.controller.Login', {
 
   logoutSucess: function () {
     ExpressoMobile.app.invalidateSession();
+    Ext.Viewport.removeAll();
+    Ext.Viewport.add(Ext.create('ExpressoMobile.view.Login'));
     Ext.Viewport.animateActiveItem(Ext.getCmp('loginForm'), { type: 'pop' });
   },
 

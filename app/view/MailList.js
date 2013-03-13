@@ -33,7 +33,7 @@ Ext.define('ExpressoMobile.view.MailList', {
                 var mailView = Ext.getCmp('mailView');
 
                 if(mailView) {
-                    Ext.getCmp('mailViewPanel').setHtml(record.get('msgSubject'));
+                    Ext.getCmp('mailViewPanel').setHtml(record.get('msgBodyResume'));
                     Ext.Viewport.animateActiveItem(mailView,{ type: 'slide', direction: 'left' });
                 } else {
                     Ext.Viewport.add(Ext.create('Ext.Container', {
@@ -56,7 +56,7 @@ Ext.define('ExpressoMobile.view.MailList', {
                         }, {
                             xtype: 'panel',
                             id: 'mailViewPanel',
-                            html: record.get('msgSubject')
+                            html: record.get('msgBodyResume')
                         }]
                     }));
                     Ext.Viewport.animateActiveItem(Ext.getCmp('mailView'),{ type: 'slide', direction: 'left' });

@@ -23,7 +23,7 @@ Ext.define("ExpressoMobile.view.Login", {
 
       items: [{
         xtype: "toolbar",
-        dock: "top",
+        docked: "top",
         title: "Expresso Mobile"
       },{
         xtype: 'textfield',
@@ -58,15 +58,15 @@ Ext.define("ExpressoMobile.view.Login", {
       id: 'loginButton',
       ui: 'action',
       padding: '10px'
-    }],
+    }]
 
-    control: {
-      '#loginButton' : {
-        tap: function(btn) {
-          var values = this.getValues();
-          this.fireEvent('login', this, values);
-        }
-      }
-    }
+    // control: {
+    //   '#loginButton' : {
+    //     tap: function(btn) {
+    //       var values = this.getValues();
+    //       this.fireEvent('login', this, values);
+    //     }
+    //   }
+    // }
   }
 });
