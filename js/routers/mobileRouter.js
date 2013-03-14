@@ -18,7 +18,8 @@ define([ "jquery", "backbone", "global", "views/LoginView", "views/HomeView"  ],
       "": "home",
       "homeView": "home",
       "loginView": "login",
-      "sair": "sair"
+      "sair": "sair",
+      "*defaults": "home"
     },
 
     login: function() {
