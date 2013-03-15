@@ -27,6 +27,26 @@ require([ "jquery", "backbone", "routers/mobileRouter" ], function( $, Backbone,
       $.mobile.linkBindingEnabled = false;
       // Disabling this will prevent jQuery Mobile from handling hash changes
       $.mobile.hashListeningEnabled = false;
+
+      // // Navigation
+      // $.mobile.page.prototype.options.backBtnText = "Go back";
+      // $.mobile.page.prototype.options.addBackBtn      = true;
+      // $.mobile.page.prototype.options.backBtnTheme    = "d";
+
+      // // Page
+      // $.mobile.page.prototype.options.headerTheme   = "b";  // Page header only
+      // $.mobile.page.prototype.options.contentTheme  = "d";
+      // $.mobile.page.prototype.options.footerTheme   = "b";
+
+      // // Listviews
+      // $.mobile.listview.prototype.options.headerTheme     = "a";  // Header for nested lists
+      // $.mobile.listview.prototype.options.theme           = "b";  // List items / content
+      // $.mobile.listview.prototype.options.dividerTheme    = "d";  // List divider
+
+      // $.mobile.listview.prototype.options.splitTheme   = "c";
+      // $.mobile.listview.prototype.options.countTheme   = "c";
+      // $.mobile.listview.prototype.options.filterTheme = "c";
+      // $.mobile.listview.prototype.options.filterPlaceholder = "Filter data...";
     }
   )
 
