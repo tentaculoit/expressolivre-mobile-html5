@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" />
+    <link rel="stylesheet" href="resources/css/lib/jquery/style.css" />
     <script src="js/libs/require.js" data-main="js/mobile"></script>
 </head>
 <body>
@@ -57,7 +57,7 @@
     </div><!-- /page -->
 
     <script type="text/template" id="menu-item-template">
-        <li><a href="#folder/${folder.idToUrl}">${folder.folderName}</a></li>
+        <li><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
     </script>
 
     <script type="text/template" id="message-item-list-template">

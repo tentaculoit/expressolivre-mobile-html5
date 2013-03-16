@@ -11,7 +11,7 @@ define(["jquery", "backbone", "global", "models/folderModel", "collections/folde
 
       me.buildMenu( function() {
         $('#homePage #defaultPanel').html($('#menu-template').html());
-        me.render();
+        $.mobile.navigate( "#folder?INBOX" );
       } );
     },
 

@@ -19,7 +19,7 @@ define([ "jquery", "backbone", "global", "views/LoginView", "views/HomeView", "v
       "home": "home",
       "login": "login",
       "logout": "logout",
-      "folder/:folderID": "folder",
+      "folder?:folderID": "folder",
       "*defaults": "home"
     },
 
