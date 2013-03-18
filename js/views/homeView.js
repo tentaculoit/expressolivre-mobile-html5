@@ -1,13 +1,16 @@
-define(["jquery", "backbone", "global", "models/folderModel", "collections/folderCollection"], function($, Backbone, global, FolderModel, FolderCollection) {
+define(["jquery", "backbone", "global", "models/folderModel", "collections/folderCollection", "text!templates/home.html"], function($, Backbone, global, FolderModel, FolderCollection, textTemplate) {
 
   var HomeView = Backbone.View.extend({
     el: '#homePage',
+    template: _.template(textTemplate),
     events: {
 
     },
 
     initialize: function() {
       var me = this;
+
+      $("body").append(me.template);
 
       me.buildMenu( function() {
         $('#homePage #defaultPanel').html($('#menuBlock').html());
