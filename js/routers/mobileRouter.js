@@ -2,7 +2,7 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "backbone", "global", "views/LoginView", "views/HomeView", "views/FolderView", "models/FolderModel", "models/MessageModel"  ], function( $, Backbone, global, LoginView, HomeView, FolderView, FolderModel, MessageModel ) {
+define([ "jquery", "backbone", "global", "views/loginView", "views/homeView", "views/folderView", "models/folderModel", "models/messageModel"  ], function( $, Backbone, global, LoginView, HomeView, FolderView, FolderModel, MessageModel ) {
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
 

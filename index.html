@@ -9,53 +9,6 @@
     <script src="js/libs/require.js" data-main="js/mobile"></script>
 </head>
 <body>
-    <div data-role="page" id="loginPage">
-        <div data-role="header">
-            <h1>Acesso</h1>
-        </div>
-        <form>
-            <div data-role="fieldcontain" class="ui-hide-label">
-                <label for="user">Usuário:</label>
-                <input type="text" name="user" id="user" value="iphone.prodeb" data-clear-btn="true" placeholder="Usuário">
-            </div>
-            <div data-role="fieldcontain" class="ui-hide-label">
-                <label for="password">Senha:</label>
-                <input type="password" name="password" id="password" value="iphone" autocomplete="off" data-clear-btn="true" placeholder="Senha">
-            </div>
-            <div class="ui-body ui-body-c">
-                <input type="submit" value="Login" id="loginButton" data-theme="a" >
-            </div>
-        </form>
-    </div>
-
-    <div data-role="page" id="homePage">
-        <div data-role="panel" id="defaultPanel">
-        </div><!-- /panel -->
-
-        <div data-role="header">
-            <h1>Home</h1>
-            <a href="#defaultPanel" id="linkOpenDefaultPanel" class="ui-icon-nodisc" data-role="button" data-iconshadow="false" data-icon="bars" data-iconpos="notext" data-inline="true">Menu</a>
-        </div><!-- /header -->
-
-        <div data-role="content">
-            <p>Página Inicial</p>
-        </div><!-- /content -->
-    </div><!-- /page -->
-
-    <div data-role="page" id="folderPage">
-        <div data-role="panel" id="defaultPanel">
-        </div><!-- /panel -->
-
-        <div data-role="header">
-            <h1 class="title" id="title"></h1>
-            <a href="#defaultPanel" class="ui-icon-nodisc" data-role="button" data-iconshadow="false" data-icon="bars" data-iconpos="notext" data-inline="true">Menu</a>
-        </div>
-        <div data-role="content">
-            <ul data-role="listview" data-inset="true" id="messageList">
-            </ul>
-        </div>
-    </div><!-- /page -->
-
     <script type="text/template" id="menu-item-template">
         <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
     </script>

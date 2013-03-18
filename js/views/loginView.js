@@ -1,25 +1,15 @@
-define(["jquery", "backbone", "global", "models/userModel"], function($, Backbone, global, UserModel) {
+define(["jquery", "backbone", "global", "models/userModel", "text!templates/login.html"], function($, Backbone, global, UserModel, textTemplate) {
 
   var LoginView = Backbone.View.extend({
     el: '#loginPage',
+    template: _.template(textTemplate),
     events: {
       'click #loginButton': 'login'
     },
 
     initialize: function() {
-      // $('#loginPage').bind('pageinit', function(event) {
-      //   $('form').validate({
-      //     rules: {
-      //       user: {
-      //         required: true
-      //       },
-      //       password: {
-      //         required: true
-      //       }
-      //     }
-      //   });
-      // });
-
+      var me = this;
+      $("body").append(me.template);
       $.mobile.changePage( "#loginPage", { reverse: false, changeHash: false } );
     },
 

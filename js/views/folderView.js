@@ -1,13 +1,16 @@
-define(["jquery", "backbone", "global", "collections/messageCollection" ], function($, Backbone, global, MessageCollection) {
+define(["jquery", "backbone", "global", "collections/messageCollection", "text!templates/folder.html"], function($, Backbone, global, MessageCollection, textTemplate) {
 
   var FolderView = Backbone.View.extend({
     el: '#folderPage',
+    template: _.template(textTemplate),
     events: {
     },
 
     initialize: function() {
+      var me = this;
+      $("body").append(me.template);
       $('#folderPage #defaultPanel').html($('#menuBlock').html())
-      this.render();
+      me.render();
     },
 
     render: function(){
