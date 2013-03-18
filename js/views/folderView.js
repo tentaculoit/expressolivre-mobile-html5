@@ -6,7 +6,7 @@ define(["jquery", "backbone", "global", "collections/messageCollection" ], funct
     },
 
     initialize: function() {
-      $('#folderPage #defaultPanel').html($('#menu-template').html())
+      $('#folderPage #defaultPanel').html($('#menuBlock').html())
       this.render();
     },
 
@@ -28,7 +28,7 @@ define(["jquery", "backbone", "global", "collections/messageCollection" ], funct
 
           $('#folderPage #title').html(me.model.get("folderName"));
 
-          var messageListSelector = $('#folderPage #message-list')
+          var messageListSelector = $('#folderPage #messageList')
 
           messageListSelector.html($.parseHTML(messages)) ;
 

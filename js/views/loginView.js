@@ -7,18 +7,18 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
     },
 
     initialize: function() {
-      $('#loginPage').bind('pageinit', function(event) {
-        $('form').validate({
-          rules: {
-            user: {
-              required: true
-            },
-            password: {
-              required: true
-            }
-          }
-        });
-      });
+      // $('#loginPage').bind('pageinit', function(event) {
+      //   $('form').validate({
+      //     rules: {
+      //       user: {
+      //         required: true
+      //       },
+      //       password: {
+      //         required: true
+      //       }
+      //     }
+      //   });
+      // });
 
       $.mobile.changePage( "#loginPage", { reverse: false, changeHash: false } );
     },

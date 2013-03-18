@@ -38,7 +38,7 @@
         </div><!-- /header -->
 
         <div data-role="content">
-            <p>Page content goes here.</p>
+            <p>Página Inicial</p>
         </div><!-- /content -->
     </div><!-- /page -->
 
@@ -51,13 +51,13 @@
             <a href="#defaultPanel" class="ui-icon-nodisc" data-role="button" data-iconshadow="false" data-icon="bars" data-iconpos="notext" data-inline="true">Menu</a>
         </div>
         <div data-role="content">
-            <ul data-role="listview" data-inset="true" id="message-list">
+            <ul data-role="listview" data-inset="true" id="messageList">
             </ul>
         </div>
     </div><!-- /page -->
 
     <script type="text/template" id="menu-item-template">
-        <li><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
+        <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
     </script>
 
     <script type="text/template" id="message-item-list-template">
@@ -71,11 +71,14 @@
         </li>
     </script>
 
-    <div id="menu-template" style="display: none">
-        <ul data-role="listview" class="nav-search">
+    <div id="menuBlock" style="display: none">
+    </div>
+
+    <script type="text/template" id="menuTemplate">
+        <ul data-role="listview" class="nav-search" id="menuList">
             <li id="menuTitle">Expresso</li>
             <li><a href="#logout">Sair</a></li>
         </ul>
-    </div>
+    </script>
 </body>
 </html>
