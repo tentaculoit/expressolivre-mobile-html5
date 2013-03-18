@@ -2,12 +2,24 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "backbone", "global", "views/loginView", "views/homeView", "views/folderView", "models/folderModel", "models/messageModel"  ], function( $, Backbone, global, LoginView, HomeView, FolderView, FolderModel, MessageModel ) {
+define([ "jquery", "backbone", "global",
+  "views/loginView", "views/homeView", "views/folderView",
+  "models/folderModel", "models/messageModel",
+  "text!templates/login.html", "text!templates/home.html", "text!templates/folder.html"  ],
+
+  function( $, Backbone, global,
+    LoginView, HomeView, FolderView,
+    FolderModel, MessageModel,
+    loginTemplate, homeTemplate, homeTemplate ) {
+
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
 
     // The Router constructor
     initialize: function() {
+      $("body").append(_.template(loginTemplate))
+        .append(_.template(homeTemplate))
+        .append(_.template(homeTemplate));
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
     },

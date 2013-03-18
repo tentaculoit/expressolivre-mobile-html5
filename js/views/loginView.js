@@ -1,15 +1,12 @@
-define(["jquery", "backbone", "global", "models/userModel", "text!templates/login.html"], function($, Backbone, global, UserModel, textTemplate) {
+define(["jquery", "backbone", "global", "models/userModel"], function($, Backbone, global, UserModel) {
 
   var LoginView = Backbone.View.extend({
     el: '#loginPage',
-    template: _.template(textTemplate),
     events: {
       'click #loginButton': 'login'
     },
 
     initialize: function() {
-      var me = this;
-      $("body").append(me.template);
       $.mobile.changePage( "#loginPage", { reverse: false, changeHash: false } );
     },
 
@@ -21,6 +18,7 @@ define(["jquery", "backbone", "global", "models/userModel", "text!templates/logi
 
       user.save(null,{
         success: function(model, response){
+
           global.app.auth = model.get("auth");
           $.mobile.navigate( "#home" );
         },
