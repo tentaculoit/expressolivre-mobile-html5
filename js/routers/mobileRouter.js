@@ -54,8 +54,9 @@ define([ "jquery", "backbone", "global", "views/LoginView", "views/HomeView", "v
     },
 
     logout: function() {
-      global.app.auth = null;
-      $.mobile.navigate( "#login" );
+      if(this.canAccess()) {
+        document.location.reload();
+      }
     },
 
     canAccess: function() {

@@ -10,7 +10,7 @@ define(["jquery", "backbone", "global", "models/folderModel", "collections/folde
       var me = this;
 
       me.buildMenu( function() {
-        $('#homePage #defaultPanel').html($('#menu-template').html());
+        $('#homePage #defaultPanel').html($('#menuBlock').html());
         $.mobile.navigate( "#folder?INBOX" );
       } );
     },
@@ -33,7 +33,8 @@ define(["jquery", "backbone", "global", "models/folderModel", "collections/folde
             menuItens = menuItens + menuItemTemplate({folder: folder.toJSON()});
           });
 
-          $($.parseHTML(menuItens)).insertAfter($('#menuTitle'));
+          $('#menuBlock').html( _.template( $('#menuTemplate').html() ) );
+          $($.parseHTML(menuItens)).insertAfter($('#menuBlock #menuList #menuTitle'));
         },
         error: function(collection, xhr){
           alert(xhr)
