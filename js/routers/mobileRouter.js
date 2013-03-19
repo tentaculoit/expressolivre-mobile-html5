@@ -10,7 +10,7 @@ define([ "jquery", "backbone", "global",
   function( $, Backbone, global,
     LoginView, HomeView, FolderView,
     FolderModel, MessageModel,
-    loginTemplate, homeTemplate, homeTemplate ) {
+    loginTemplate, homeTemplate, folderTemplate ) {
 
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
@@ -19,7 +19,7 @@ define([ "jquery", "backbone", "global",
     initialize: function() {
       $("body").append(_.template(loginTemplate))
         .append(_.template(homeTemplate))
-        .append(_.template(homeTemplate));
+        .append(_.template(folderTemplate));
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
     },
