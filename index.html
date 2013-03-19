@@ -15,13 +15,22 @@
 
     <script type="text/template" id="message-item-list-template">
         <li>
-            <a href="#message/${message.msgID}">
+            <a href="#message?${message.msgID}">
                 <h2>${message.msgFrom.mailAddress}</h2>
                 <p><strong>${message.msgSubject}</strong></p>
                 <p>${message.msgBodyResume}</p>
                 <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
             </a>
         </li>
+    </script>
+
+    <script type="text/template" id="message-template">
+        <div>
+            <p>${message.msgFrom.mailAddress}</p>
+            <p><strong>${message.msgSubject}</strong></p>
+            <p class="ui-li-aside">${message.msgDate}</p>
+            <p>${message.msgBody}</p>
+        </div>
     </script>
 
     <div id="menuBlock" style="display: none">

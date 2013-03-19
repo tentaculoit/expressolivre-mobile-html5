@@ -20,7 +20,7 @@ require.config( {
 } );
 
 // Includes File Dependencies
-require([ "jquery", "backbone", "routers/mobileRouter" ], function( $, Backbone, Mobile ) {
+require([ "jquery", "backbone", "routers/mobileRouter", "global" ], function( $, Backbone, Mobile, global ) {
   $( document ).on( "mobileinit",
     // Set up the "mobileinit" handler before requiring jQuery Mobile's module
     function() {
@@ -32,7 +32,7 @@ require([ "jquery", "backbone", "routers/mobileRouter" ], function( $, Backbone,
       $.mobile.hashListeningEnabled = false;
 
       // // Navigation
-      // $.mobile.page.prototype.options.backBtnText = "Go back";
+      $.mobile.page.prototype.options.backBtnText = "Voltar";
       // $.mobile.page.prototype.options.addBackBtn      = true;
       // $.mobile.page.prototype.options.backBtnTheme    = "d";
 
@@ -52,6 +52,30 @@ require([ "jquery", "backbone", "routers/mobileRouter" ], function( $, Backbone,
       // $.mobile.listview.prototype.options.filterPlaceholder = "Filter data...";
     }
   )
+
+  Backbone.Model.prototype.sync = function(method, model, options) {
+    options = options ? _.clone(options) : {};
+    options.contentType='application/json';
+
+    model.set({auth: global.app.auth});
+    options.data = "params=" + JSON.stringify(model.attributes);
+
+    if (model.methodUrl && model.methodUrl(method.toLowerCase())) {
+      methodUrl = model.methodUrl(method.toLowerCase());
+      options.url = methodUrl.url;
+      options.method = methodUrl.method;
+    }
+
+    Backbone.sync(method, model, options);
+  };
+
+  Backbone.Model.prototype.parse = function (response) {
+    if ( _.isObject(response.result) ) {
+      return response.result;
+    } else {
+      return response;
+    }
+  };
 
   require( [ "jquerymobile" ], function() {
     // Instantiates a new Backbone.js Mobile Router

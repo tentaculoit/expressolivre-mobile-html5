@@ -1,19 +1,22 @@
-define(["jquery", "backbone", "global", "collections/messageCollection"], function($, Backbone, global, MessageCollection) {
+define(["jquery", "backbone", "global", "collections/messageCollection", "models/messageModel"], function($, Backbone, global, MessageCollection, MessageModel) {
 
   var FolderView = Backbone.View.extend({
-    el: '#folderPage',
+    pageId: '#folderPage',
     events: {
     },
 
     initialize: function() {
       var me = this;
-      $('#folderPage #defaultPanel').html($('#menuBlock').html())
+      me.messageModel = this.options.messageModel;
+
+      $(me.pageId + ' #defaultPanel').html($('#menuBlock').html())
       me.render();
     },
 
     render: function(){
       var me = this;
       $.mobile.loading("show", { text: "Carregando Emails", textVisible: true });
+
       var messages = new MessageCollection( { model: me.messageModel } );
 
       messages.fetch({
@@ -27,9 +30,9 @@ define(["jquery", "backbone", "global", "collections/messageCollection"], functi
             messages = messages + messageTemplate({message: message.toJSON()});
           });
 
-          $('#folderPage #title').html(me.model.get("folderName"));
+          $(me.pageId + ' #title').html(me.model.get("folderName"));
 
-          var messageListSelector = $('#folderPage #messageList')
+          var messageListSelector = $(me.pageId + ' #messageList')
 
           messageListSelector.html($.parseHTML(messages)) ;
 
@@ -43,8 +46,8 @@ define(["jquery", "backbone", "global", "collections/messageCollection"], functi
         },
         complete: function() {
           $.mobile.loading("hide");
-          $.mobile.changePage( "#folderPage", { reverse: false, changeHash: false } );
-          $('#folderPage #defaultPanel').panel( "close" );
+          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+          $(me.pageId + ' #defaultPanel').panel( "close" );
         }
       });
     }

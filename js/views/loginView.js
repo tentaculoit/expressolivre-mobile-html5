@@ -2,15 +2,18 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
 
   var LoginView = Backbone.View.extend({
     el: '#loginPage',
+    pageId: '#loginPage',
     events: {
       'click #loginButton': 'login'
     },
 
     initialize: function() {
-      $.mobile.changePage( "#loginPage", { reverse: false, changeHash: false } );
+      var me = this;
+      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
     },
 
     login: function(event) {
+      var me = this;
       event.preventDefault();
       $.mobile.loading("show", { text: "Logando", textVisible: true });
 
@@ -18,7 +21,6 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
 
       user.save(null,{
         success: function(model, response){
-
           global.app.auth = model.get("auth");
           $.mobile.navigate( "#home" );
         },

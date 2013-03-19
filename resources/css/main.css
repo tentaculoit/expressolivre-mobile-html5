@@ -1,0 +1,6 @@
+#messagePage div[data-role="content"] p {
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.bottom-nav  {text-align:center;}
+.bottom-nav div {display:inline-block;}
