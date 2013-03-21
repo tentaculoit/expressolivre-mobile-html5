@@ -8,6 +8,7 @@ require.config( {
     "underscore": "libs/lodash",
     "backbone": "libs/backbone",
     "text": "libs/text",
+    "cordova": "libs/cordova"
   },
 
   // Sets the configuration for your third party scripts that are not AMD compatible
