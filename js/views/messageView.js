@@ -15,12 +15,18 @@ define(["jquery", "backbone", "global", "models/messageModel"], function($, Back
       var me = this;
       $.mobile.loading("show", { text: "Carregando Email", textVisible: true });
 
+      $(me.pageId + " a.backButton").attr("href","#folder?" + me.folderModel.idToUrl());
+
       me.model.fetch({
         success: function(message){
-
           messageTemplate = _.template($('#message-template').html());
-          $(me.pageId + " div:jqmData(role='content')").html( $.parseHTML( messageTemplate({message: message.toJSON()}) ) );
-          $(me.pageId + " a.backButton").attr("href","#folder?" + me.folderModel.idToUrl());
+
+          var messageItemSelector = $(me.pageId + " #messageItem");
+
+          messageItemSelector.html( $.parseHTML( messageTemplate({message: message.toJSON()}) ) );
+
+          if(messageItemSelector.hasClass('ui-listview'))
+            messageItemSelector.listview('refresh');
         },
         error: function(collection, xhr){
           console.log(xhr)

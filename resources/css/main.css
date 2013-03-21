@@ -1,6 +1,6 @@
-#messagePage div[data-role="content"] p {
-  border-bottom: 1px solid rgba(0,0,0,.08);
+#folderPage a.ui-link-inherit {
+  padding-left: 30px
 }
-
-.bottom-nav  {text-align:center;}
-.bottom-nav div {display:inline-block;}
+#folderPage img.unread_email_image {
+  padding-top: 25px;
+}

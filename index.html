@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="resources/css/lib/jquery/style.css" />
+    <link rel="stylesheet" href="resources/css/main.css" />
     <script src="js/libs/require.js" data-main="js/mobile"></script>
 </head>
 <body>
@@ -16,8 +17,11 @@
     <script type="text/template" id="message-item-list-template">
         <li>
             <a href="#message?${message.msgID}">
-                <h2>${message.msgFrom.mailAddress}</h2>
-                <p><strong>${message.msgSubject}</strong></p>
+                <h3>${message.msgFrom.mailAddress}</h3>
+                <% if(message.msgSeen != 1) { %>
+                    <img src="resources/icons/unread-email-icon.png" alt="Não Lida" class="ui-li-icon unread_email_image">
+                <% } %>
+                <p>${message.msgSubject}</p>
                 <p>${message.msgBodyResume}</p>
                 <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
             </a>
@@ -25,12 +29,12 @@
     </script>
 
     <script type="text/template" id="message-template">
-        <div>
-            <p>${message.msgFrom.mailAddress}</p>
-            <p><strong>${message.msgSubject}</strong></p>
-            <p class="ui-li-aside">${message.msgDate}</p>
-            <p>${message.msgBody}</p>
-        </div>
+        <li data-role="list-divider" data-theme="c">${message.msgFrom.mailAddress}</li>
+        <li>
+            <h2>${message.msgSubject}</h2>
+            <pre>${message.msgBody}</pre>
+            <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
+        </li>
     </script>
 
     <div id="menuBlock" style="display: none">

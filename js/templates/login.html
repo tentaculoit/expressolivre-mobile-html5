@@ -3,23 +3,29 @@
         <h1>Expresso</h1>
     </div>
     <form>
-        <div data-role="fieldcontain" class="ui-hide-label">
-            <label for="user">Usuário:</label>
-            <input type="text" name="user" id="user" value="iphone.prodeb" data-clear-btn="true" placeholder="Usuário">
-        </div>
-        <div data-role="fieldcontain" class="ui-hide-label">
-            <label for="password">Senha:</label>
-            <input type="password" name="password" id="password" value="iphone" autocomplete="off" data-clear-btn="true" placeholder="Senha">
-        </div>
-        <div data-role="fieldcontain">
-            <label for="salvarConta">Gravar conta?:</label>
-            <select name="salvarConta" id="salvarConta" data-role="slider">
-                <option value="0">Não</option>
-                <option value="1" selected="selected">Sim</option>
-            </select>
-        </div>
-        <div class="ui-body ui-body-c">
-            <input type="submit" value="Login" id="loginButton" data-theme="a" data-icon="check">
-        </div>
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider" data-theme="c" >Acesso</li>
+            <li data-role="fieldcontain">
+                <label for="user">Usuário:</label>
+                <input type="text" name="user" id="user" value="iphone.prodeb" data-clear-btn="true" placeholder="Usuário">
+            </li>
+            <li data-role="fieldcontain">
+                <label for="password">Senha:</label>
+                <input type="password" name="password" id="password" value="iphone" autocomplete="off" data-clear-btn="true" placeholder="Senha">
+            </li>
+            <li data-role="fieldcontain">
+                <label for="salvarConta">Gravar conta?</label>
+                <select name="salvarConta" id="salvarConta" data-role="slider">
+                    <option value="0">Não</option>
+                    <option value="1" selected="selected">Sim</option>
+                </select>
+            </li>
+            <li class="ui-body ui-body-b">
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><input type="reset" value="Limpar" data-theme="c" data-icon="delete"></div>
+                    <div class="ui-block-b"><input type="submit" value="Login" id="loginButton" data-theme="a" data-icon="check"></div>
+                </fieldset>
+            </li>
+        </ul>
     </form>
 </div>
