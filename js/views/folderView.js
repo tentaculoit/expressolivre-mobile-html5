@@ -32,7 +32,7 @@ define(["jquery", "backbone", "global", "collections/messageCollection", "models
 
           $(me.pageId + ' #title').html(me.model.get("folderName"));
 
-          var messageListSelector = $(me.pageId + ' #messageList')
+          var messageListSelector = $(me.pageId + ' #messageList');
 
           messageListSelector.html($.parseHTML(messages)) ;
 
