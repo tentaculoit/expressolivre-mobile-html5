@@ -1,6 +1,6 @@
 <div data-role="page" id="loginPage">
     <div data-role="header">
-        <h1>Acesso</h1>
+        <h1>Expresso</h1>
     </div>
     <form>
         <div data-role="fieldcontain" class="ui-hide-label">
@@ -11,8 +11,15 @@
             <label for="password">Senha:</label>
             <input type="password" name="password" id="password" value="iphone" autocomplete="off" data-clear-btn="true" placeholder="Senha">
         </div>
+        <div data-role="fieldcontain">
+            <label for="salvarConta">Gravar conta?:</label>
+            <select name="salvarConta" id="salvarConta" data-role="slider">
+                <option value="0">Não</option>
+                <option value="1" selected="selected">Sim</option>
+            </select>
+        </div>
         <div class="ui-body ui-body-c">
-            <input type="submit" value="Login" id="loginButton" data-theme="a" >
+            <input type="submit" value="Login" id="loginButton" data-theme="a" data-icon="check">
         </div>
     </form>
 </div>
