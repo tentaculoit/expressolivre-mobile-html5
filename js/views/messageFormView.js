@@ -2,7 +2,7 @@ define(["jquery", "backbone", "global",
   "models/messageModel",
   "text!templates/messageFormBlock.html"], function($, Backbone, global, MessageModel, messageFormBlockTemplate) {
 
-  var MessageView = Backbone.View.extend({
+  var MessageFormView = Backbone.View.extend({
     el: '#messageFormPage',
     pageId: '#messageFormPage',
     events: {
@@ -86,5 +86,5 @@ define(["jquery", "backbone", "global",
     }
   });
 
-  return MessageView;
+  return MessageFormView;
 });
