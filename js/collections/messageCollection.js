@@ -17,7 +17,7 @@ define(["jquery", "backbone", "global", "models/messageModel"], function($, Back
     },
 
     parse: function(response) {
-      return response.result.messages;
+      return response.result.messages ? response.result.messages : [];
     }
   });
 

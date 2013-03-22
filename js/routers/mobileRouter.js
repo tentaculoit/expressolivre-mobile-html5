@@ -3,14 +3,14 @@
 
 // Includes file dependencies
 define([ "jquery", "backbone", "global",
-  "views/loginView", "views/homeView", "views/folderView",
+  "views/loginView", "views/homeView", "views/folderView", "views/messageView",
   "models/folderModel", "models/messageModel",
-  "text!templates/login.html", "text!templates/home.html", "text!templates/folder.html"  ],
+  "text!templates/login.html", "text!templates/home.html", "text!templates/folder.html", "text!templates/message.html"  ],
 
   function( $, Backbone, global,
-    LoginView, HomeView, FolderView,
+    LoginView, HomeView, FolderView, MessageView,
     FolderModel, MessageModel,
-    loginTemplate, homeTemplate, homeTemplate ) {
+    loginTemplate, homeTemplate, folderTemplate, messageTemplate ) {
 
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
@@ -19,7 +19,9 @@ define([ "jquery", "backbone", "global",
     initialize: function() {
       $("body").append(_.template(loginTemplate))
         .append(_.template(homeTemplate))
-        .append(_.template(homeTemplate));
+        .append(_.template(folderTemplate))
+        .append(_.template(messageTemplate));
+
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
     },
@@ -32,6 +34,7 @@ define([ "jquery", "backbone", "global",
       "login": "login",
       "logout": "logout",
       "folder?:folderID": "folder",
+      "message?:messageID": "message",
       "*defaults": "home"
     },
 
@@ -52,15 +55,30 @@ define([ "jquery", "backbone", "global",
     folder: function(folderID) {
       if(this.canAccess()) {
         var folderIDParsed  = folderID.replace("-","/");
-        var folderModel     = this.homeView.foldersCollection.get(folderIDParsed);
         var messageModel    = new MessageModel({ folderID: folderIDParsed})
 
+        this.currentFolder  = this.homeView.foldersCollection.get(folderIDParsed);
+
         if( this.folderView ) {
-          this.folderView.model = folderModel;
+          this.folderView.model = this.currentFolder;
           this.folderView.messageModel = messageModel;
           this.folderView.render();
         } else {
-          this.folderView = new FolderView( { model: folderModel, messageModel: messageModel } );
+          this.folderView = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
+        }
+      }
+    },
+
+    message: function(messageID) {
+      if(this.canAccess()) {
+        var messageModel    = new MessageModel({ msgID: messageID, folderID: this.currentFolder.get("folderID")})
+
+        if( this.messageView ) {
+          this.messageView.model = messageModel;
+          this.messageView.folderModel = this.currentFolder;
+          this.messageView.render();
+        } else {
+          this.messageView = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
         }
       }
     },
