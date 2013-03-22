@@ -2,7 +2,7 @@
     <div data-role="header" data-position="fixed">
       <a class="backButton" data-transition="slide" data-reverse="true"  data-role="button" data-rel="back" data-direction="reverse" data-icon="arrow-l" data-iconpos="notext" >Voltar</a>
         <h1 class="title" id="title"></h1>
-        <a href="#" data-icon="edit" data-iconpos="notext" class="ui-btn-right">Nova Mensagem</a>
+        <a href="#messageForm?newFromEmail" data-icon="edit" data-iconpos="notext" class="ui-btn-right">Nova Mensagem</a>
     </div>
     <div data-role="content">
       <ul data-role="listview" id="messageItem">
@@ -11,9 +11,9 @@
     <div data-role="footer" data-position="fixed" class="bottom-nav">
       <div data-role="navbar" data-iconpos="right">
         <ul>
-          <li><a href="#" data-iconpos="notext" data-icon="back">Responder</a></li>
-          <li><a href="#" data-iconpos="notext" data-icon="forward">Encaminhar</a></li>
-          <li><a href="#" data-iconpos="notext" data-icon="delete">Apagar</a></li>
+          <li><a href="#messageForm?reply" data-iconpos="notext" data-icon="back">Responder</a></li>
+          <li><a href="#messageForm?forward" data-iconpos="notext" data-icon="forward">Encaminhar</a></li>
+          <li><a href="#messageDelete" data-iconpos="notext" data-icon="delete">Apagar</a></li>
         </ul>
     </div>
 </div><!-- /page -->

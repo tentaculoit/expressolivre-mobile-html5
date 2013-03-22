@@ -1,0 +1,15 @@
+<li data-role="fieldcontain" class="ui-hide-label">
+    <label for="to">Para:</label>
+    <input type="text" name="to" id="to" data-clear-btn="true" placeholder="Para" value="<%= (message.msgFrom) ? message.msgFrom.mailAddress : "" %>">
+</li>
+<li data-role="fieldcontain" class="ui-hide-label">
+    <label for="subject">Assunto:</label>
+    <input type="text" name="subject" id="subject" data-clear-btn="true" placeholder="Assunto" value="<%= message.msgSubject %>">
+</li>
+<li data-role="fieldcontain" class="ui-hide-label">
+    <label for="body">Conteúdo</label>
+    <textarea cols="40" rows="20" name="body" id="body" placeholder="Conteúdo"></textarea>
+</li>
+<li data-role="fieldcontain" class="ui-hide-label">
+  <div id="bodyToReplyOrForward" style="overflow: scroll"><%= message.msgBody %></div>
+</li>

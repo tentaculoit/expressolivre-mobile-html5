@@ -38,6 +38,10 @@ define(["jquery", "backbone", "global",
           $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
         }
       });
+    },
+
+    delete: function() {
+      console.log("remove");
     }
   });
 

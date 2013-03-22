@@ -3,14 +3,16 @@
 
 // Includes file dependencies
 define([ "jquery", "backbone", "global",
-  "views/loginView", "views/homeView", "views/folderView", "views/messageView",
+  "views/loginView", "views/homeView", "views/folderView", "views/messageView", "views/messageFormView",
   "models/folderModel", "models/messageModel",
-  "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html"  ],
+  "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html",
+  "text!templates/messageFormPage.html" ],
 
   function( $, Backbone, global,
-    LoginView, HomeView, FolderView, MessageView,
+    LoginView, HomeView, FolderView, MessageView, MessageFormView,
     FolderModel, MessageModel,
-    loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate ) {
+    loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate,
+    messageFormPageTemplate ) {
 
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
@@ -20,7 +22,8 @@ define([ "jquery", "backbone", "global",
       $("body").append(_.template(loginPageTemplate))
         .append(_.template(homePageTemplate))
         .append(_.template(folderPageTemplate))
-        .append(_.template(messagePageTemplate));
+        .append(_.template(messagePageTemplate))
+        .append(_.template(messageFormPageTemplate));
 
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
@@ -35,6 +38,8 @@ define([ "jquery", "backbone", "global",
       "logout": "logout",
       "folder?:folderID": "folder",
       "message?:messageID": "message",
+      "messageDelete" : "messageDelete",
+      "messageForm?:action": "messageForm",
       "*defaults": "home"
     },
 
@@ -80,6 +85,45 @@ define([ "jquery", "backbone", "global",
         } else {
           this.messageView = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
         }
+      }
+    },
+
+    messageForm: function(action) {
+      if(this.canAccess()) {
+        var messageModel = new MessageModel();
+
+        switch(action) {
+          case "reply":
+            messageModel.set("msgID", this.messageView.model.get("msgID"));
+            messageModel.set("msgFrom", this.messageView.model.get("msgFrom"));
+            messageModel.set("msgSubject", "Re: " + this.messageView.model.get("msgSubject"));
+            messageModel.set("msgBody", this.messageView.model.get("msgBody"));
+
+            break;
+          case "forward":
+            messageModel.set("msgID", this.messageView.model.get("msgID"));
+            messageModel.set("msgSubject", "Fw: " + this.messageView.model.get("msgSubject"));
+            messageModel.set("msgBody", this.messageView.model.get("msgBody"));
+
+            break;
+          case "newFromEmail":
+            messageModel.set("msgID", this.messageView.model.get("msgID"));
+        }
+
+        if( this.messageFormView ) {
+          this.messageFormView.model = messageModel;
+          this.messageFormView.folderModel = this.currentFolder;
+          this.messageFormView.action = action;
+          this.messageFormView.render();
+        } else {
+          this.messageFormView = new MessageFormView( { model: messageModel, folderModel: this.currentFolder, action: action } );
+        }
+      }
+    },
+
+    messageDelete: function() {
+      if(this.canAccess()) {
+        this.messageView.delete();
       }
     },
 
