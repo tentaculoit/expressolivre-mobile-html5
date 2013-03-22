@@ -85,6 +85,7 @@ define([ "jquery", "backbone", "global",
 
     logout: function() {
       if(this.canAccess()) {
+        window.localStorage.setItem("keepOnLoginPage", "1");
         document.location.reload();
       }
     },
