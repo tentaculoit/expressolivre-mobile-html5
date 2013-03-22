@@ -1,4 +1,6 @@
-define(["jquery", "backbone", "global", "models/messageModel"], function($, Backbone, global, MessageModel) {
+define(["jquery", "backbone", "global",
+  "models/messageModel",
+  "text!templates/messageShowBlock.html"], function($, Backbone, global, MessageModel, messageShowBlockTemplate) {
 
   var MessageView = Backbone.View.extend({
     pageId: '#messagePage',
@@ -19,7 +21,7 @@ define(["jquery", "backbone", "global", "models/messageModel"], function($, Back
 
       me.model.fetch({
         success: function(message){
-          messageTemplate = _.template($('#message-template').html());
+          messageTemplate = _.template(messageShowBlockTemplate);
 
           var messageItemSelector = $(me.pageId + " #messageItem");
 

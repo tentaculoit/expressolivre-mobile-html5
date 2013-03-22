@@ -10,41 +10,18 @@
     <script src="js/libs/require.js" data-main="js/mobile"></script>
 </head>
 <body>
-    <script type="text/template" id="menu-item-template">
-        <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
-    </script>
-
-    <script type="text/template" id="message-item-list-template">
-        <li>
-            <a href="#message?${message.msgID}">
-                <h3>${message.msgFrom.mailAddress}</h3>
-                <% if(message.msgSeen != 1) { %>
-                    <img src="resources/icons/unread-email-icon.png" alt="Não Lida" class="ui-li-icon unread_email_image">
-                <% } %>
-                <p>${message.msgSubject}</p>
-                <p>${message.msgBodyResume}</p>
-                <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
-            </a>
-        </li>
-    </script>
-
-    <script type="text/template" id="message-template">
-        <li data-role="list-divider" data-theme="c">${message.msgFrom.mailAddress}</li>
-        <li>
-            <h2>${message.msgSubject}</h2>
-            <pre>${message.msgBody}</pre>
-            <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
-        </li>
-    </script>
-
     <div id="menuBlock" style="display: none">
     </div>
-
-    <script type="text/template" id="menuTemplate">
-        <ul data-role="listview" class="nav-search" id="menuList">
-            <li id="menuTitle">Expresso</li>
-            <li><a href="#logout">Sair</a></li>
-        </ul>
-    </script>
 </body>
 </html>
+
+<script type="text/template" id="menuTemplate">
+    <ul data-role="listview" class="nav-search" id="menuList">
+        <li id="menuTitle">Expresso</li>
+        <li><a href="#logout">Sair</a></li>
+    </ul>
+</script>
+
+<script type="text/template" id="menu-item-template">
+    <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
+</script>

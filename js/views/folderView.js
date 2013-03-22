@@ -1,4 +1,7 @@
-define(["jquery", "backbone", "global", "collections/messageCollection", "models/messageModel"], function($, Backbone, global, MessageCollection, MessageModel) {
+define(["jquery", "backbone", "global",
+  "collections/messageCollection",
+  "models/messageModel",
+  "text!templates/messageListBlock.html"], function($, Backbone, global, MessageCollection, MessageModel, messageListBlockTemplate) {
 
   var FolderView = Backbone.View.extend({
     pageId: '#folderPage',
@@ -24,7 +27,7 @@ define(["jquery", "backbone", "global", "collections/messageCollection", "models
         success: function(collection, response){
 
           messages = "";
-          messageTemplate = _.template($('#message-item-list-template').html());
+          messageTemplate = _.template(messageListBlockTemplate);
 
           collection.each(function(message){
             messages = messages + messageTemplate({message: message.toJSON()});

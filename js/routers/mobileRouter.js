@@ -5,22 +5,22 @@
 define([ "jquery", "backbone", "global",
   "views/loginView", "views/homeView", "views/folderView", "views/messageView",
   "models/folderModel", "models/messageModel",
-  "text!templates/login.html", "text!templates/home.html", "text!templates/folder.html", "text!templates/message.html"  ],
+  "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html"  ],
 
   function( $, Backbone, global,
     LoginView, HomeView, FolderView, MessageView,
     FolderModel, MessageModel,
-    loginTemplate, homeTemplate, folderTemplate, messageTemplate ) {
+    loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate ) {
 
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
 
     // The Router constructor
     initialize: function() {
-      $("body").append(_.template(loginTemplate))
-        .append(_.template(homeTemplate))
-        .append(_.template(folderTemplate))
-        .append(_.template(messageTemplate));
+      $("body").append(_.template(loginPageTemplate))
+        .append(_.template(homePageTemplate))
+        .append(_.template(folderPageTemplate))
+        .append(_.template(messagePageTemplate));
 
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
