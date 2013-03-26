@@ -123,7 +123,7 @@ define([ "jquery", "backbone", "global",
 
     messageDelete: function() {
       if(this.canAccess()) {
-        this.messageView.delete();
+        this.messageView.remove();
       }
     },
 

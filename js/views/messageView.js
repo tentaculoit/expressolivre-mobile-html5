@@ -40,7 +40,7 @@ define(["jquery", "backbone", "global",
       });
     },
 
-    delete: function() {
+    remove: function() {
       console.log("remove");
     }
   });
