@@ -1,6 +1,6 @@
-define(["jquery", "backbone", "global", "flashMessage",
+define(["jquery", "backbone", "global", "cache", "flashMessage",
   "models/messageModel",
-  "text!templates/messageFormBlock.html"], function($, Backbone, global, FlashMessage,
+  "text!templates/messageFormBlock.html"], function($, Backbone, global, Cache, FlashMessage,
     MessageModel,
     messageFormBlockTemplate) {
 
@@ -13,7 +13,6 @@ define(["jquery", "backbone", "global", "flashMessage",
 
     initialize: function() {
       var me = this;
-      me.folderModel = this.options.folderModel;
       me.action = this.options.action;
       me.render();
     },
@@ -25,7 +24,7 @@ define(["jquery", "backbone", "global", "flashMessage",
       if( me.action == "reply" || me.action == "forward" || me.action == "newFromEmail" )
         $(me.pageId + " a.backButton").attr("href","#message?" + messageModel.get("msgID"));
       else
-        $(me.pageId + " a.backButton").attr("href","#folder?" + me.folderModel.idToUrl());
+        $(me.pageId + " a.backButton").attr("href","#folder?" + Cache.currentFolder.idToUrl());
 
       $(me.pageId + " #title").html( me.getTitle() );
 
@@ -50,20 +49,20 @@ define(["jquery", "backbone", "global", "flashMessage",
 
       switch(me.action) {
         case "reply":
-          messageModel.set("msgID", me.model.get("msgID"));
-          messageModel.set("msgFrom", me.model.get("msgFrom"));
-          messageModel.set("msgSubject", "Re: " + me.model.get("msgSubject"));
-          messageModel.set("msgBody", me.model.get("msgBody"));
+          messageModel.set("msgID", Cache.currentMessage.get("msgID"));
+          messageModel.set("msgFrom", Cache.currentMessage.get("msgFrom"));
+          messageModel.set("msgSubject", "Re: " + Cache.currentMessage.get("msgSubject"));
+          messageModel.set("msgBody", Cache.currentMessage.get("msgBody"));
 
           break;
         case "forward":
-          messageModel.set("msgID", me.model.get("msgID"));
-          messageModel.set("msgSubject", "Fw: " + me.model.get("msgSubject"));
-          messageModel.set("msgBody", me.model.get("msgBody"));
+          messageModel.set("msgID", Cache.currentMessage.get("msgID"));
+          messageModel.set("msgSubject", "Fw: " + Cache.currentMessage.get("msgSubject"));
+          messageModel.set("msgBody", Cache.currentMessage.get("msgBody"));
 
           break;
         case "newFromEmail":
-          messageModel.set("msgID", me.model.get("msgID"));
+          messageModel.set("msgID", Cache.currentMessage.get("msgID"));
       }
 
       return messageModel;
@@ -103,7 +102,7 @@ define(["jquery", "backbone", "global", "flashMessage",
       message.save(null,{
         success: function(model, response){
           FlashMessage.success("Email enviado com sucesso");
-          $.mobile.navigate( "#folder?" + me.folderModel.idToUrl() );
+          $.mobile.navigate( "#folder?" + Cache.currentFolder.idToUrl() );
         },
         error: function(model, xhr){
           FlashMessage.error("Não foi possível enviar o email");

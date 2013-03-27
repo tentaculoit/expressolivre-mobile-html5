@@ -85,12 +85,10 @@ define([ "jquery", "backbone", "global", "cache",
       if(this.canAccess()) {
 
         if( Cache.Views.messageForm ) {
-          Cache.Views.messageForm.model = Cache.Views.message.model;
-          Cache.Views.messageForm.folderModel = this.currentFolder;
           Cache.Views.messageForm.action = action;
           Cache.Views.messageForm.render();
         } else {
-          Cache.Views.messageForm = new MessageFormView( { model: Cache.Views.message.model, folderModel: this.currentFolder, action: action } );
+          Cache.Views.messageForm = new MessageFormView( { action: action } );
         }
       }
     },

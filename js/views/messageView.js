@@ -56,6 +56,8 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       if(messageItemSelector.hasClass('ui-listview'))
         messageItemSelector.listview('refresh');
 
+      Cache.currentMessage = message;
+
       $(me.pageId + " a.backButton").attr("href","#folder?" + Cache.currentFolder.idToUrl());
       $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
     },
@@ -64,10 +66,10 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       var me = this;
       if(event) event.preventDefault();
 
-      Cache.Views.message.model.destroy({
+      Cache.currentMessage.destroy({
         success: function(model, response){
-          Cache.Collections.folders.get( Cache.currentFolder.get("folderID") ).get("messages").remove( Cache.Views.message.model );
-          Cache.Views.message.model = null;
+          Cache.Collections.folders.get( Cache.currentFolder.get("folderID") ).get("messages").remove( Cache.currentMessage );
+          Cache.currentMessage = null;
 
           $.mobile.navigate( "#folder?" + Cache.currentFolder.idToUrl() );
           FlashMessage.success("Email removido com sucesso");
