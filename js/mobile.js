@@ -21,7 +21,7 @@ require.config( {
 } );
 
 // Includes File Dependencies
-require([ "jquery", "backbone", "routers/mobileRouter", "global" ], function( $, Backbone, Mobile, global ) {
+require([ "jquery", "backbone", "routers/mobileRouter", "global", "flashMessage" ], function( $, Backbone, Mobile, global, FlashMessage ) {
   $( document ).on( "mobileinit",
     // Set up the "mobileinit" handler before requiring jQuery Mobile's module
     function() {
@@ -70,11 +70,24 @@ require([ "jquery", "backbone", "routers/mobileRouter", "global" ], function( $,
     Backbone.sync(method, model, options);
   };
 
+  Backbone.Model.prototype.hasError = function() {
+    return (this.get("error"));
+  }
+
   Backbone.Model.prototype.parse = function (response) {
-    if ( _.isObject(response.result) ) {
-      return response.result;
-    } else {
+    //Não faz sempre o parse do result pois quando da um fetch em uma collection
+    //é chamado o parse da collection para preencher a collection porém chama também
+    //o parse do Model para cada item dentro da collection
+    if( _.isObject(response.error) ) {
+      if( response.error.code )
+        FlashMessage.serverError( response.error.code );
       return response;
+    } else {
+      if ( _.isObject(response.result) ) {
+        return response.result;
+      } else {
+        return response;
+      }
     }
   };
 

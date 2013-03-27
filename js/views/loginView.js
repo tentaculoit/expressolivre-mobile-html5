@@ -1,4 +1,6 @@
-define(["jquery", "backbone", "global", "models/userModel"], function($, Backbone, global, UserModel) {
+define(["jquery", "backbone", "global", "flashMessage",
+  "models/userModel"], function($, Backbone, global, FlashMessage,
+    UserModel) {
 
   var LoginView = Backbone.View.extend({
     el: '#loginPage',
@@ -38,17 +40,23 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
 
       user.save(null,{
         success: function(model, response){
-          global.app.auth = model.get("auth");
-          if( $('#salvarConta option:selected:first').val() == 1 ) {
-            window.localStorage.setItem("user", JSON.stringify(dadosLogin) );
-          } else {
-            window.localStorage.removeItem("user");
-          }
+          if( !model.hasError() ) {
+            global.app.auth = model.get("auth");
 
-          $.mobile.navigate( "#home" );
+            if( $('#salvarConta option:selected:first').val() == 1 ) {
+              window.localStorage.setItem("user", JSON.stringify(dadosLogin) );
+            } else {
+              window.localStorage.removeItem("user");
+            }
+
+            $.mobile.navigate( "#home" );
+          } else {
+            if(!event)
+              $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+          }
         },
         error: function(model, xhr){
-          alert(xhr)
+          FlashMessage.error("O Expresso nesse momento está fora do ar.")
         },
         complete: function() {
           $.mobile.loading("hide");
