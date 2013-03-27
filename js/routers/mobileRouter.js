@@ -38,7 +38,6 @@ define([ "jquery", "backbone", "global",
       "logout": "logout",
       "folder?:folderID": "folder",
       "message?:messageID": "message",
-      "messageDelete" : "messageDelete",
       "messageForm?:action": "messageForm",
       "*defaults": "home"
     },
