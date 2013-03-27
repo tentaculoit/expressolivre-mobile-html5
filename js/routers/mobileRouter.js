@@ -2,13 +2,13 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "backbone", "global",
+define([ "jquery", "backbone", "global", "cache",
   "views/loginView", "views/homeView", "views/folderView", "views/messageView", "views/messageFormView",
   "models/folderModel", "models/messageModel",
   "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html",
   "text!templates/messageFormPage.html" ],
 
-  function( $, Backbone, global,
+  function( $, Backbone, global, Cache,
     LoginView, HomeView, FolderView, MessageView, MessageFormView,
     FolderModel, MessageModel,
     loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate,
@@ -48,10 +48,10 @@ define([ "jquery", "backbone", "global",
 
     home: function() {
       if(this.canAccess()) {
-        if( global.cache.views.home ) {
-          global.cache.views.home.render();
+        if( Cache.Views.home ) {
+          Cache.Views.home.render();
         } else {
-          global.cache.views.home = new HomeView();
+          Cache.Views.home = new HomeView();
         }
       }
     },
@@ -61,14 +61,14 @@ define([ "jquery", "backbone", "global",
         var folderIDParsed  = folderID.replace("-","/");
         var messageModel    = new MessageModel({ folderID: folderIDParsed})
 
-        this.currentFolder  = global.cache.views.home.foldersCollection.get(folderIDParsed);
+        this.currentFolder  = Cache.Views.home.foldersCollection.get(folderIDParsed);
 
-        if( global.cache.views.folder ) {
-          global.cache.views.folder.model = this.currentFolder;
-          global.cache.views.folder.messageModel = messageModel;
-          global.cache.views.folder.render();
+        if( Cache.Views.folder ) {
+          Cache.Views.folder.model = this.currentFolder;
+          Cache.Views.folder.messageModel = messageModel;
+          Cache.Views.folder.render();
         } else {
-          global.cache.views.folder = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
+          Cache.Views.folder = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
         }
       }
     },
@@ -77,12 +77,12 @@ define([ "jquery", "backbone", "global",
       if(this.canAccess()) {
         var messageModel    = new MessageModel({ msgID: messageID, folderID: this.currentFolder.get("folderID")})
 
-        if( global.cache.views.message ) {
-          global.cache.views.message.model = messageModel;
-          global.cache.views.message.folderModel = this.currentFolder;
-          global.cache.views.message.render();
+        if( Cache.Views.message ) {
+          Cache.Views.message.model = messageModel;
+          Cache.Views.message.folderModel = this.currentFolder;
+          Cache.Views.message.render();
         } else {
-          global.cache.views.message = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
+          Cache.Views.message = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
         }
       }
     },
@@ -90,13 +90,13 @@ define([ "jquery", "backbone", "global",
     messageForm: function(action) {
       if(this.canAccess()) {
 
-        if( global.cache.views.messageForm ) {
-          global.cache.views.messageForm.model = global.cache.views.message.model;
-          global.cache.views.messageForm.folderModel = this.currentFolder;
-          global.cache.views.messageForm.action = action;
-          global.cache.views.messageForm.render();
+        if( Cache.Views.messageForm ) {
+          Cache.Views.messageForm.model = Cache.Views.message.model;
+          Cache.Views.messageForm.folderModel = this.currentFolder;
+          Cache.Views.messageForm.action = action;
+          Cache.Views.messageForm.render();
         } else {
-          global.cache.views.messageForm = new MessageFormView( { model: global.cache.views.message.model, folderModel: this.currentFolder, action: action } );
+          Cache.Views.messageForm = new MessageFormView( { model: Cache.Views.message.model, folderModel: this.currentFolder, action: action } );
         }
       }
     },

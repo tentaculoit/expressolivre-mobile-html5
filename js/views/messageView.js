@@ -1,6 +1,6 @@
-define(["jquery", "backbone", "global", "flashMessage",
+define(["jquery", "backbone", "global", "cache", "flashMessage",
   "models/messageModel",
-  "text!templates/messageShowBlock.html"], function($, Backbone, global, flashMessage,
+  "text!templates/messageShowBlock.html"], function($, Backbone, global, Cache, FlashMessage,
     MessageModel,
     messageShowBlockTemplate) {
 
@@ -37,7 +37,7 @@ define(["jquery", "backbone", "global", "flashMessage",
           $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
         },
         error: function(collection, xhr){
-          flashMessage.success("Não foi possível carregar esse email");
+          FlashMessage.success("Não foi possível carregar esse email");
         },
         complete: function() {
           $.mobile.loading("hide");
@@ -49,14 +49,14 @@ define(["jquery", "backbone", "global", "flashMessage",
       var me = this;
       if(event) event.preventDefault();
 
-      global.cache.views.message.model.destroy({
+      Cache.Views.message.model.destroy({
         success: function(model, response){
-          global.cache.views.message.model = null;
+          Cache.Views.message.model = null;
           $.mobile.navigate( "#folder?" + me.folderModel.idToUrl() );
-          flashMessage.success("Email removido com sucesso");
+          FlashMessage.success("Email removido com sucesso");
         },
         error: function(model, xhr){
-          flashMessage.success("Não foi possível remover esse email");
+          FlashMessage.success("Não foi possível remover esse email");
         }
       });
     }
