@@ -1,6 +1,8 @@
-define(["jquery", "backbone", "global",
+define(["jquery", "backbone", "global", "flashMessage",
   "models/messageModel",
-  "text!templates/messageFormBlock.html"], function($, Backbone, global, MessageModel, messageFormBlockTemplate) {
+  "text!templates/messageFormBlock.html"], function($, Backbone, global, FlashMessage,
+    MessageModel,
+    messageFormBlockTemplate) {
 
   var MessageFormView = Backbone.View.extend({
     el: '#messageFormPage',
@@ -69,16 +71,16 @@ define(["jquery", "backbone", "global",
 
     getTitle: function() {
       switch(this.action) {
-      case "reply":
-        return "Responder";
-      case "forward":
-        return "Encaminhar";
-      case "new":
-        return "Novo Email";
-      case "newFromEmail":
-        return "Novo Email";
-      default:
-        return "";
+        case "reply":
+          return "Responder";
+        case "forward":
+          return "Encaminhar";
+        case "new":
+          return "Novo Email";
+        case "newFromEmail":
+          return "Novo Email";
+        default:
+          return "";
       }
     },
 
@@ -100,10 +102,11 @@ define(["jquery", "backbone", "global",
 
       message.save(null,{
         success: function(model, response){
+          FlashMessage.success("Email enviado com sucesso");
           $.mobile.navigate( "#folder?" + me.folderModel.idToUrl() );
         },
         error: function(model, xhr){
-          console.log(xhr)
+          FlashMessage.error("Não foi possível enviar o email");
         },
         complete: function() {
           $.mobile.loading("hide");

@@ -1,5 +1,4 @@
 define({
-  Views: {
-
-  }
+  Views: {},
+  Collections: {}
 });

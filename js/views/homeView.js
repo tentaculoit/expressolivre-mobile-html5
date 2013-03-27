@@ -1,4 +1,8 @@
-define(["jquery", "backbone", "global", "models/folderModel", "collections/folderCollection"], function($, Backbone, global, FolderModel, FolderCollection) {
+define(["jquery", "backbone", "global", "cache", "flashMessage",
+  "models/folderModel",
+  "collections/folderCollection"], function($, Backbone, global, Cache, FlashMessage,
+    FolderModel,
+    FolderCollection) {
 
   var HomeView = Backbone.View.extend({
     pageId: '#homePage',
@@ -21,9 +25,9 @@ define(["jquery", "backbone", "global", "models/folderModel", "collections/folde
 
     buildMenu: function(finish) {
       $.mobile.loading("show", { text: "Logando"});
-      this.foldersCollection = new FolderCollection();
+      Cache.Collections.folders = new FolderCollection();
 
-      this.foldersCollection.fetch({
+      Cache.Collections.folders.fetch({
         success: function(collection, response){
 
           menuItens = "";
@@ -36,13 +40,15 @@ define(["jquery", "backbone", "global", "models/folderModel", "collections/folde
 
           $('#menuBlock').html( _.template( $('#menuTemplate').html() ) );
           $($.parseHTML(menuItens)).insertAfter($('#menuBlock #menuList #menuTitle'));
+
+          finish.call();
         },
         error: function(collection, xhr){
-          console.log(xhr);
+          FlashMessage.error("O sistema está temporariamente fora do ar.");
+          $.mobile.navigate( "#logout" );
         },
         complete: function() {
           $.mobile.loading("hide");
-          finish.call();
         }
       });
     }

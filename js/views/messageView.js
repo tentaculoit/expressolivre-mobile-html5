@@ -13,36 +13,51 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
 
     initialize: function() {
       var me = this;
-      me.folderModel = this.options.folderModel;
+      me.messageID = this.options.messageID;
       me.render();
     },
 
     render: function(){
       var me = this;
-      $.mobile.loading("show", { text: "Carregando Email", textVisible: true });
 
-      $(me.pageId + " a.backButton").attr("href","href","#folder?" + me.folderModel.idToUrl());
+      var messageModel = Cache.Collections.folders.get( Cache.currentFolder.get("folderID") ).get("messages").get( me.messageID );
 
-      me.model.fetch({
-        success: function(message){
-          messageTemplate = _.template(messageShowBlockTemplate);
+      if( messageModel.get("msgBody") ) {
+        me.renderSuccessCallback(messageModel);
+      } else {
+        messageModel    = new MessageModel({ msgID: me.messageID, folderID: Cache.currentFolder.get("folderID")})
 
-          var messageItemSelector = $(me.pageId + " #messageItem");
+        $.mobile.loading("show", { text: "Carregando Email", textVisible: true });
 
-          messageItemSelector.html( $.parseHTML( messageTemplate({message: message.toJSON()}) ) );
+        messageModel.fetch({
+          success: function(message){
+            Cache.Collections.folders.get( Cache.currentFolder.get("folderID") )
+              .get("messages").get( me.messageID ).set( messageModel.attributes );
+            me.renderSuccessCallback(message);
+          },
+          error: function(collection, xhr){
+            FlashMessage.success("Não foi possível carregar esse email");
+          },
+          complete: function() {
+            $.mobile.loading("hide");
+          }
+        });
+      }
+    },
 
-          if(messageItemSelector.hasClass('ui-listview'))
-            messageItemSelector.listview('refresh');
+    renderSuccessCallback: function(message) {
+      var me = this;
+      messageTemplate = _.template(messageShowBlockTemplate);
 
-          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
-        },
-        error: function(collection, xhr){
-          FlashMessage.success("Não foi possível carregar esse email");
-        },
-        complete: function() {
-          $.mobile.loading("hide");
-        }
-      });
+      var messageItemSelector = $(me.pageId + " #messageItem");
+
+      messageItemSelector.html( $.parseHTML( messageTemplate({message: message.toJSON()}) ) );
+
+      if(messageItemSelector.hasClass('ui-listview'))
+        messageItemSelector.listview('refresh');
+
+      $(me.pageId + " a.backButton").attr("href","#folder?" + Cache.currentFolder.idToUrl());
+      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
     },
 
     remove: function(event) {
@@ -51,12 +66,14 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
 
       Cache.Views.message.model.destroy({
         success: function(model, response){
+          Cache.Collections.folders.get( Cache.currentFolder.get("folderID") ).get("messages").remove( Cache.Views.message.model );
           Cache.Views.message.model = null;
-          $.mobile.navigate( "#folder?" + me.folderModel.idToUrl() );
+
+          $.mobile.navigate( "#folder?" + Cache.currentFolder.idToUrl() );
           FlashMessage.success("Email removido com sucesso");
         },
         error: function(model, xhr){
-          FlashMessage.success("Não foi possível remover esse email");
+          FlashMessage.error("Não foi possível remover esse email");
         }
       });
     }

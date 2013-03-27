@@ -59,30 +59,24 @@ define([ "jquery", "backbone", "global", "cache",
     folder: function(folderID) {
       if(this.canAccess()) {
         var folderIDParsed  = folderID.replace("-","/");
-        var messageModel    = new MessageModel({ folderID: folderIDParsed})
 
-        this.currentFolder  = Cache.Views.home.foldersCollection.get(folderIDParsed);
+        Cache.currentFolder  = Cache.Collections.folders.get(folderIDParsed);
 
         if( Cache.Views.folder ) {
-          Cache.Views.folder.model = this.currentFolder;
-          Cache.Views.folder.messageModel = messageModel;
           Cache.Views.folder.render();
         } else {
-          Cache.Views.folder = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
+          Cache.Views.folder = new FolderView();
         }
       }
     },
 
     message: function(messageID) {
       if(this.canAccess()) {
-        var messageModel    = new MessageModel({ msgID: messageID, folderID: this.currentFolder.get("folderID")})
-
         if( Cache.Views.message ) {
-          Cache.Views.message.model = messageModel;
-          Cache.Views.message.folderModel = this.currentFolder;
+          Cache.Views.message.messageID = messageID;
           Cache.Views.message.render();
         } else {
-          Cache.Views.message = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
+          Cache.Views.message = new MessageView( { messageID: messageID } );
         }
       }
     },
