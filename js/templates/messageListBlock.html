@@ -1,0 +1,11 @@
+<li>
+    <a href="#message?${message.msgID}">
+        <h3>${message.msgFrom.mailAddress}</h3>
+        <% if(message.msgSeen != 1) { %>
+            <img src="resources/icons/unread-email-icon.png" alt="Não Lida" class="ui-li-icon unread_email_image">
+        <% } %>
+        <p>${message.msgSubject}</p>
+        <p>${message.msgBodyResume}</p>
+        <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
+    </a>
+</li>

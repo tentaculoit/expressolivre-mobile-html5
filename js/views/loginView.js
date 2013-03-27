@@ -16,14 +16,21 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
         user = JSON.parse(user);
         $('#user').val( user.user );
         $('#password').val( user.password );
-      };
 
-      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+        if( window.localStorage.getItem("keepOnLoginPage") ) {
+          window.localStorage.removeItem("keepOnLoginPage");
+          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+        } else {
+          this.login();
+        }
+      } else {
+        $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+      };
     },
 
     login: function(event) {
       var me = this;
-      event.preventDefault();
+      if(event) event.preventDefault();
       $.mobile.loading("show", { text: "Logando", textVisible: true });
 
       var dadosLogin = { user: $('#user').val(), password: $('#password').val() };

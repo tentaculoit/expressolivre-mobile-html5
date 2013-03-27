@@ -2,25 +2,28 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "backbone", "global",
-  "views/loginView", "views/homeView", "views/folderView", "views/messageView",
+define([ "jquery", "backbone", "global", "cache",
+  "views/loginView", "views/homeView", "views/folderView", "views/messageView", "views/messageFormView",
   "models/folderModel", "models/messageModel",
-  "text!templates/login.html", "text!templates/home.html", "text!templates/folder.html", "text!templates/message.html"  ],
+  "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html",
+  "text!templates/messageFormPage.html" ],
 
-  function( $, Backbone, global,
-    LoginView, HomeView, FolderView, MessageView,
+  function( $, Backbone, global, Cache,
+    LoginView, HomeView, FolderView, MessageView, MessageFormView,
     FolderModel, MessageModel,
-    loginTemplate, homeTemplate, folderTemplate, messageTemplate ) {
+    loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate,
+    messageFormPageTemplate ) {
 
   // Extends Backbone.Router
   var MobileRouter = Backbone.Router.extend( {
 
     // The Router constructor
     initialize: function() {
-      $("body").append(_.template(loginTemplate))
-        .append(_.template(homeTemplate))
-        .append(_.template(folderTemplate))
-        .append(_.template(messageTemplate));
+      $("body").append(_.template(loginPageTemplate))
+        .append(_.template(homePageTemplate))
+        .append(_.template(folderPageTemplate))
+        .append(_.template(messagePageTemplate))
+        .append(_.template(messageFormPageTemplate));
 
       // Tells Backbone to start watching for hashchange events
       Backbone.history.start();
@@ -35,6 +38,7 @@ define([ "jquery", "backbone", "global",
       "logout": "logout",
       "folder?:folderID": "folder",
       "message?:messageID": "message",
+      "messageForm?:action": "messageForm",
       "*defaults": "home"
     },
 
@@ -44,10 +48,10 @@ define([ "jquery", "backbone", "global",
 
     home: function() {
       if(this.canAccess()) {
-        if( this.homeView ) {
-          this.homeView.render();
+        if( Cache.Views.home ) {
+          Cache.Views.home.render();
         } else {
-          this.homeView = new HomeView();
+          Cache.Views.home = new HomeView();
         }
       }
     },
@@ -55,36 +59,43 @@ define([ "jquery", "backbone", "global",
     folder: function(folderID) {
       if(this.canAccess()) {
         var folderIDParsed  = folderID.replace("-","/");
-        var messageModel    = new MessageModel({ folderID: folderIDParsed})
 
-        this.currentFolder  = this.homeView.foldersCollection.get(folderIDParsed);
+        Cache.currentFolder  = Cache.Collections.folders.get(folderIDParsed);
 
-        if( this.folderView ) {
-          this.folderView.model = this.currentFolder;
-          this.folderView.messageModel = messageModel;
-          this.folderView.render();
+        if( Cache.Views.folder ) {
+          Cache.Views.folder.render();
         } else {
-          this.folderView = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
+          Cache.Views.folder = new FolderView();
         }
       }
     },
 
     message: function(messageID) {
       if(this.canAccess()) {
-        var messageModel    = new MessageModel({ msgID: messageID, folderID: this.currentFolder.get("folderID")})
-
-        if( this.messageView ) {
-          this.messageView.model = messageModel;
-          this.messageView.folderModel = this.currentFolder;
-          this.messageView.render();
+        if( Cache.Views.message ) {
+          Cache.Views.message.messageID = messageID;
+          Cache.Views.message.render();
         } else {
-          this.messageView = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
+          Cache.Views.message = new MessageView( { messageID: messageID } );
+        }
+      }
+    },
+
+    messageForm: function(action) {
+      if(this.canAccess()) {
+
+        if( Cache.Views.messageForm ) {
+          Cache.Views.messageForm.action = action;
+          Cache.Views.messageForm.render();
+        } else {
+          Cache.Views.messageForm = new MessageFormView( { action: action } );
         }
       }
     },
 
     logout: function() {
       if(this.canAccess()) {
+        window.localStorage.setItem("keepOnLoginPage", "1");
         document.location.reload();
       }
     },
