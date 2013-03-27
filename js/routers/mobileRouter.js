@@ -49,10 +49,10 @@ define([ "jquery", "backbone", "global",
 
     home: function() {
       if(this.canAccess()) {
-        if( this.homeView ) {
-          this.homeView.render();
+        if( global.cache.views.home ) {
+          global.cache.views.home.render();
         } else {
-          this.homeView = new HomeView();
+          global.cache.views.home = new HomeView();
         }
       }
     },
@@ -62,14 +62,14 @@ define([ "jquery", "backbone", "global",
         var folderIDParsed  = folderID.replace("-","/");
         var messageModel    = new MessageModel({ folderID: folderIDParsed})
 
-        this.currentFolder  = this.homeView.foldersCollection.get(folderIDParsed);
+        this.currentFolder  = global.cache.views.home.foldersCollection.get(folderIDParsed);
 
-        if( this.folderView ) {
-          this.folderView.model = this.currentFolder;
-          this.folderView.messageModel = messageModel;
-          this.folderView.render();
+        if( global.cache.views.folder ) {
+          global.cache.views.folder.model = this.currentFolder;
+          global.cache.views.folder.messageModel = messageModel;
+          global.cache.views.folder.render();
         } else {
-          this.folderView = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
+          global.cache.views.folder = new FolderView( { model: this.currentFolder, messageModel: messageModel } );
         }
       }
     },
@@ -78,52 +78,27 @@ define([ "jquery", "backbone", "global",
       if(this.canAccess()) {
         var messageModel    = new MessageModel({ msgID: messageID, folderID: this.currentFolder.get("folderID")})
 
-        if( this.messageView ) {
-          this.messageView.model = messageModel;
-          this.messageView.folderModel = this.currentFolder;
-          this.messageView.render();
+        if( global.cache.views.message ) {
+          global.cache.views.message.model = messageModel;
+          global.cache.views.message.folderModel = this.currentFolder;
+          global.cache.views.message.render();
         } else {
-          this.messageView = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
+          global.cache.views.message = new MessageView( { model: messageModel, folderModel: this.currentFolder } );
         }
       }
     },
 
     messageForm: function(action) {
       if(this.canAccess()) {
-        var messageModel = new MessageModel();
 
-        switch(action) {
-          case "reply":
-            messageModel.set("msgID", this.messageView.model.get("msgID"));
-            messageModel.set("msgFrom", this.messageView.model.get("msgFrom"));
-            messageModel.set("msgSubject", "Re: " + this.messageView.model.get("msgSubject"));
-            messageModel.set("msgBody", this.messageView.model.get("msgBody"));
-
-            break;
-          case "forward":
-            messageModel.set("msgID", this.messageView.model.get("msgID"));
-            messageModel.set("msgSubject", "Fw: " + this.messageView.model.get("msgSubject"));
-            messageModel.set("msgBody", this.messageView.model.get("msgBody"));
-
-            break;
-          case "newFromEmail":
-            messageModel.set("msgID", this.messageView.model.get("msgID"));
-        }
-
-        if( this.messageFormView ) {
-          this.messageFormView.model = messageModel;
-          this.messageFormView.folderModel = this.currentFolder;
-          this.messageFormView.action = action;
-          this.messageFormView.render();
+        if( global.cache.views.messageForm ) {
+          global.cache.views.messageForm.model = global.cache.views.message.model;
+          global.cache.views.messageForm.folderModel = this.currentFolder;
+          global.cache.views.messageForm.action = action;
+          global.cache.views.messageForm.render();
         } else {
-          this.messageFormView = new MessageFormView( { model: messageModel, folderModel: this.currentFolder, action: action } );
+          global.cache.views.messageForm = new MessageFormView( { model: global.cache.views.message.model, folderModel: this.currentFolder, action: action } );
         }
-      }
-    },
-
-    messageDelete: function() {
-      if(this.canAccess()) {
-        this.messageView.remove();
       }
     },
 

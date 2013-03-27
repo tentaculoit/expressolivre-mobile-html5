@@ -18,19 +18,20 @@ define(["jquery", "backbone", "global",
 
     render: function(){
       var me = this;
+      var messageModel = me.getFormModel();
 
       if( me.action == "reply" || me.action == "forward" || me.action == "newFromEmail" )
-        $(me.pageId + " a.backButton").attr("href","#message?" + me.model.get("msgID"));
+        $(me.pageId + " a.backButton").attr("href","#message?" + messageModel.get("msgID"));
       else
         $(me.pageId + " a.backButton").attr("href","#folder?" + me.folderModel.idToUrl());
 
-      $(me.pageId + " #title").html(me.actionToTitle());
+      $(me.pageId + " #title").html( me.getTitle() );
 
       messageFormTemplate = _.template(messageFormBlockTemplate);
 
       var messageItemSelector = $(me.pageId + " #messageFormItem");
 
-      messageItemSelector.html( $.parseHTML( messageFormTemplate({message: me.model.toJSON()}) ) );
+      messageItemSelector.html( $.parseHTML( messageFormTemplate({message: messageModel.toJSON()}) ) );
 
       if(messageItemSelector.hasClass('ui-listview')) {
         messageItemSelector.listview('refresh');
@@ -41,7 +42,32 @@ define(["jquery", "backbone", "global",
 
     },
 
-    actionToTitle: function() {
+    getFormModel: function() {
+      var me = this;
+      var messageModel = new MessageModel();
+
+      switch(me.action) {
+        case "reply":
+          messageModel.set("msgID", me.model.get("msgID"));
+          messageModel.set("msgFrom", me.model.get("msgFrom"));
+          messageModel.set("msgSubject", "Re: " + me.model.get("msgSubject"));
+          messageModel.set("msgBody", me.model.get("msgBody"));
+
+          break;
+        case "forward":
+          messageModel.set("msgID", me.model.get("msgID"));
+          messageModel.set("msgSubject", "Fw: " + me.model.get("msgSubject"));
+          messageModel.set("msgBody", me.model.get("msgBody"));
+
+          break;
+        case "newFromEmail":
+          messageModel.set("msgID", me.model.get("msgID"));
+      }
+
+      return messageModel;
+    },
+
+    getTitle: function() {
       switch(this.action) {
       case "reply":
         return "Responder";

@@ -1,10 +1,14 @@
-define(["jquery", "backbone", "global",
+define(["jquery", "backbone", "global", "flashMessage",
   "models/messageModel",
-  "text!templates/messageShowBlock.html"], function($, Backbone, global, MessageModel, messageShowBlockTemplate) {
+  "text!templates/messageShowBlock.html"], function($, Backbone, global, flashMessage,
+    MessageModel,
+    messageShowBlockTemplate) {
 
   var MessageView = Backbone.View.extend({
+    el: '#messagePage',
     pageId: '#messagePage',
     events: {
+      'click #removeMessage': 'remove'
     },
 
     initialize: function() {
@@ -17,7 +21,7 @@ define(["jquery", "backbone", "global",
       var me = this;
       $.mobile.loading("show", { text: "Carregando Email", textVisible: true });
 
-      $(me.pageId + " a.backButton").attr("href","#folder?" + me.folderModel.idToUrl());
+      $(me.pageId + " a.backButton").attr("href","href","#folder?" + me.folderModel.idToUrl());
 
       me.model.fetch({
         success: function(message){
@@ -29,19 +33,32 @@ define(["jquery", "backbone", "global",
 
           if(messageItemSelector.hasClass('ui-listview'))
             messageItemSelector.listview('refresh');
+
+          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
         },
         error: function(collection, xhr){
-          console.log(xhr)
+          flashMessage.success("Não foi possível carregar esse email");
         },
         complete: function() {
           $.mobile.loading("hide");
-          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
         }
       });
     },
 
-    remove: function() {
-      console.log("remove");
+    remove: function(event) {
+      var me = this;
+      if(event) event.preventDefault();
+
+      global.cache.views.message.model.destroy({
+        success: function(model, response){
+          global.cache.views.message.model = null;
+          $.mobile.navigate( "#folder?" + me.folderModel.idToUrl() );
+          flashMessage.success("Email removido com sucesso");
+        },
+        error: function(model, xhr){
+          flashMessage.success("Não foi possível remover esse email");
+        }
+      });
     }
   });
 
