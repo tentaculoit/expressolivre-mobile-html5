@@ -8,7 +8,8 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
     el: '#messageFormPage',
     pageId: '#messageFormPage',
     events: {
-      'click #sendButton': 'send'
+      'click #sendButton': 'send',
+      'keyup #to': 'findContacts'
     },
 
     initialize: function() {
@@ -111,7 +112,24 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
           $.mobile.loading("hide");
         }
       });
-    }
+    },
+
+    findContacts: function(event) {
+      var filter = $(event.currentTarget).val();
+
+      if( filter && filter.length > 2 ) {
+          var findOptions = new ContactFindOptions( filter, true ); //true para retornar multiplos registros
+
+          navigator.contacts.find(["displayName", "emails"],
+            function (contacts) {
+              console.log(contacts);
+            },
+            function (contactError) {
+              console(contactError);
+            }, findOptions
+          );
+        }
+      }
   });
 
   return MessageFormView;

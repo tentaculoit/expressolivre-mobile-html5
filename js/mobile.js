@@ -1,3 +1,7 @@
+function isPhoneGap() {
+  return (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) && document.location.protocol == "file:")
+}
+
 // Sets the require.js configuration for your application.
 require.config( {
   // 3rd party script alias names (Easier to type "jquery" than "libs/jquery-1.8.2.min")
@@ -8,6 +12,7 @@ require.config( {
     "underscore": "libs/lodash",
     "backbone": "libs/backbone",
     "text": "libs/text",
+    "domReady": "libs/domReady",
     "cordova": "libs/cordova"
   },
 
@@ -91,8 +96,24 @@ require([ "jquery", "backbone", "routers/mobileRouter", "global", "flashMessage"
     }
   };
 
-  require( [ "jquerymobile" ], function() {
-    // Instantiates a new Backbone.js Mobile Router
-    this.router = new Mobile();
+  var onDeviceReady = function() {
+    console.log("dom and device ready : we can start...");
+
+    require( [ "jquerymobile" ], function() {
+      // Instantiates a new Backbone.js Mobile Router
+      this.router = new Mobile();
+    });
+  }
+
+  require(['domReady','cordova'], function (domReady) {
+    domReady(function () {
+      console.log("The DOM is ready - waiting for the device");
+
+      if (isPhoneGap()) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+      } else {
+        onDeviceReady(); //this is the browser
+      }
+    });
   });
 } );
