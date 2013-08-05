@@ -1,4 +1,4 @@
-define(["jquery", "backbone", "global", "models/messageModel"], function($, Backbone, global, MessageModel) {
+define(["backbone", "global", "models/messageModel", "af"], function(Backbone, global, MessageModel) {
 
   var MessageCollection = Backbone.Collection.extend({
     model: MessageModel,

@@ -1,10 +1,10 @@
 // Sets the require.js configuration for your application.
 require.config( {
-  // 3rd party script alias names (Easier to type "jquery" than "libs/jquery-1.8.2.min")
   paths: {
     // Core Libraries
-    "jquery": "libs/jquery",
-    "jquerymobile": "libs/jquerymobile",
+    "domReady": "libs/domReady",
+    "af": "libs/appframework",
+    "afui": "libs/appframework.ui",
     "underscore": "libs/lodash",
     "backbone": "libs/backbone",
     "text": "libs/text",
@@ -14,45 +14,56 @@ require.config( {
   // Sets the configuration for your third party scripts that are not AMD compatible
   shim: {
     "backbone": {
-      "deps": [ "underscore", "jquery" ],
+      "deps": [ "underscore", "af" ],
       "exports": "Backbone"  //attaches "Backbone" to the window object
-    }
+    },
   } // end Shim Configuration
 } );
 
-// Includes File Dependencies
-require([ "jquery", "backbone", "routers/mobileRouter", "global" ], function( $, Backbone, Mobile, global ) {
-  $( document ).on( "mobileinit",
-    // Set up the "mobileinit" handler before requiring jQuery Mobile's module
-    function() {
-      $.mobile.allowCrossDomainPages = true;
-      $.support.cors = true;
-      // Prevents all anchor click handling including the addition of active button state and alternate link bluring.
-      $.mobile.linkBindingEnabled = false;
-      // Disabling this will prevent jQuery Mobile from handling hash changes
-      $.mobile.hashListeningEnabled = false;
+require([ "backbone", "routers/mobileRouter", "global", "flashMessage", "af", "afui"], function( Backbone, Mobile, global, FlashMessage) {
 
-      // // Navigation
-      $.mobile.page.prototype.options.backBtnText = "Voltar";
-      // $.mobile.page.prototype.options.addBackBtn      = true;
-      // $.mobile.page.prototype.options.backBtnTheme    = "d";
+  var isPhoneGap = function() {
+    return (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/) && document.location.protocol == "file:")
+  }
 
-      // // Page
-      // $.mobile.page.prototype.options.headerTheme   = "b";  // Page header only
-      // $.mobile.page.prototype.options.contentTheme  = "d";
-      // $.mobile.page.prototype.options.footerTheme   = "b";
+  var onDeviceReady = function() {
+    console.log("dom and device ready : we can start...");
 
-      // // Listviews
-      // $.mobile.listview.prototype.options.headerTheme     = "a";  // Header for nested lists
-      // $.mobile.listview.prototype.options.theme           = "b";  // List items / content
-      // $.mobile.listview.prototype.options.dividerTheme    = "d";  // List divider
+    $.ui.showBackbutton=false
+    $.ui.loadDefaultHash = false;
+    $.ui.manageHistory = false;
+    $.ui.autoLaunch = false;
+    $.ui.useOSThemes = true;
+    $.ui.blockPageScroll();
 
-      // $.mobile.listview.prototype.options.splitTheme   = "c";
-      // $.mobile.listview.prototype.options.countTheme   = "c";
-      // $.mobile.listview.prototype.options.filterTheme = "c";
-      // $.mobile.listview.prototype.options.filterPlaceholder = "Filter data...";
-    }
-  )
+    $.ui.launch();
+
+    this.router = new Mobile();
+    this.router.navigate = function (url) {window.location = url; }
+
+    // Tells Backbone to start watching for hashchange events
+    Backbone.history.start({pushState: false})
+    this.router.navigate("#login");
+  }
+
+
+  require(['domReady','cordova'], function (domReady) {
+    domReady(function () {
+      console.log("The DOM is ready - waiting for the device");
+
+      if (isPhoneGap()) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+      } else {
+        onDeviceReady(); //this is the browser
+      }
+    });
+  });
+
+  //afui launched and is ready
+  $.ui.ready(function () {
+    if($.ui.useOSThemes && !$.os.ios&&$("#afui").get(0).className !== "ios")
+    $("#afui").removeClass("ios");
+  });
 
   Backbone.Model.prototype.sync = function(method, model, options) {
     options = options ? _.clone(options) : {};
@@ -70,16 +81,25 @@ require([ "jquery", "backbone", "routers/mobileRouter", "global" ], function( $,
     Backbone.sync(method, model, options);
   };
 
+  Backbone.Model.prototype.hasError = function() {
+    return (this.get("error"));
+  }
+
   Backbone.Model.prototype.parse = function (response) {
-    if ( _.isObject(response.result) ) {
-      return response.result;
-    } else {
+    //Não faz sempre o parse do result pois quando da um fetch em uma collection
+    //é chamado o parse da collection para preencher a collection porém chama também
+    //o parse do Model para cada item dentro da collection
+    if( _.isObject(response.error) ) {
+      if( response.error.code )
+        FlashMessage.serverError( response.error.code );
       return response;
+    } else {
+      if ( _.isObject(response.result) ) {
+        return response.result;
+      } else {
+        return response;
+      }
     }
   };
-
-  require( [ "jquerymobile" ], function() {
-    // Instantiates a new Backbone.js Mobile Router
-    this.router = new Mobile();
-  });
 } );
+

@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Expresso</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
-    <link rel="stylesheet" href="resources/css/lib/jquery/style.css" />
-    <link rel="stylesheet" href="resources/css/main.css" />
-    <script src="js/libs/require.js" data-main="js/mobile"></script>
+    <link href="resources/css/icons.css" rel="stylesheet" type="text/css"></link>
+    <link href="resources/css/af.ui.css" rel="stylesheet" type="text/css"></link>
+    <link href="resources/css/main.css" rel="stylesheet" type="text/css"></link>
+    <script type="text/javascript" src="js/libs/require.js" data-main="js/mobile"></script>
 </head>
 <body>
-    <div id="menuBlock" style="display: none">
+  <div id="afui" class='ios'>
+    <div id="header">
+      <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton selected" style="display: none;"></a>
     </div>
+    <div id="content" style="">
+    </div>
+
+    <nav id="sideMenu">
+      <h1>Expresso</h1>
+      <a class="closebutton afMenuClose" onclick="$.ui.toggleSideMenu()"></a>
+      <ul class="list">
+      </ul>
+    </nav>
+</div>
+
+
 </body>
 </html>
 
-<script type="text/template" id="menuTemplate">
-    <ul data-role="listview" class="nav-search" id="menuList">
-        <li id="menuTitle">Expresso</li>
-        <li><a href="#logout">Sair</a></li>
-    </ul>
-</script>
-
 <script type="text/template" id="menu-item-template">
-    <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
+    <li><a href="#folder?${folder.idToUrl}" data-ignore="true">${folder.folderName}</a></li>
 </script>

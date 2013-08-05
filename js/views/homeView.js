@@ -1,6 +1,7 @@
-define(["jquery", "backbone", "global", "cache", "flashMessage",
+define(["backbone", "global", "cache", "flashMessage",
   "models/folderModel",
-  "collections/folderCollection"], function($, Backbone, global, Cache, FlashMessage,
+  "collections/folderCollection",
+  "af"], function(Backbone, global, Cache, FlashMessage,
     FolderModel,
     FolderCollection) {
 
@@ -14,17 +15,18 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       var me = this;
 
       me.buildMenu( function() {
-        $(me.pageId + ' #defaultPanel').html($('#menuBlock').html());
-        $.mobile.navigate( "#folder?INBOX" );
+        // $(me.pageId + ' #defaultPanel').html($('#menuBlock').html());
+        this.router.navigate("#folder?INBOX", {trigger: true});
       } );
     },
 
     render: function(){
-      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+      var me = this;
+      $.ui.loadContent(me.pageId);
     },
 
     buildMenu: function(finish) {
-      $.mobile.loading("show", { text: "Logando"});
+      $.ui.showMask("Carregando Pastas...");
       Cache.Collections.folders = new FolderCollection();
 
       Cache.Collections.folders.fetch({
@@ -35,20 +37,24 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
 
           collection.each(function(folder){
             folder.set({ idToUrl: folder.idToUrl() })
-            menuItens = menuItens + menuItemTemplate({folder: folder.toJSON()});
+            $('#sideMenu ul').append( menuItemTemplate({folder: folder.toJSON()}) );
           });
 
-          $('#menuBlock').html( _.template( $('#menuTemplate').html() ) );
-          $($.parseHTML(menuItens)).insertAfter($('#menuBlock #menuList #menuTitle'));
+          $.ui.updateSideMenuElements($("#sideMenu"));
+
+          // $('#sideMenu ul').append( menuItemTemplate({folder: folder.toJSON()}) );
+
+          // $('#sideMenu ul').append( _.template( $('#menuTemplate').html() ) );
+          // $($.parseHTML(menuItens)).insertAfter($('#menuBlock #menuList #menuTitle'));
 
           finish.call();
         },
         error: function(collection, xhr){
           FlashMessage.error("O sistema está temporariamente fora do ar.");
-          $.mobile.navigate( "#logout" );
+          this.router.navigate("#logout", {trigger: true});
         },
         complete: function() {
-          $.mobile.loading("hide");
+          $.ui.hideMask("");
         }
       });
     }

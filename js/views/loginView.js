@@ -1,4 +1,7 @@
-define(["jquery", "backbone", "global", "models/userModel"], function($, Backbone, global, UserModel) {
+define(["backbone", "global", "flashMessage",
+  "models/userModel",
+  "af"], function(Backbone, global, FlashMessage,
+    UserModel) {
 
   var LoginView = Backbone.View.extend({
     el: '#loginPage',
@@ -8,6 +11,8 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
     },
 
     initialize: function() {
+      $.ui.disableSideMenu();
+
       var me = this;
 
       var user = window.localStorage.getItem("user");
@@ -19,39 +24,45 @@ define(["jquery", "backbone", "global", "models/userModel"], function($, Backbon
 
         if( window.localStorage.getItem("keepOnLoginPage") ) {
           window.localStorage.removeItem("keepOnLoginPage");
-          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+          $.ui.loadContent(me.pageId);
         } else {
           this.login();
         }
       } else {
-        $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+        $.ui.loadContent(me.pageId);
       };
     },
 
     login: function(event) {
       var me = this;
       if(event) event.preventDefault();
-      $.mobile.loading("show", { text: "Logando", textVisible: true });
+      $.ui.showMask("Logando...");
 
       var dadosLogin = { user: $('#user').val(), password: $('#password').val() };
       var user = new UserModel( dadosLogin );
 
       user.save(null,{
         success: function(model, response){
-          global.app.auth = model.get("auth");
-          if( $('#salvarConta option:selected:first').val() == 1 ) {
-            window.localStorage.setItem("user", JSON.stringify(dadosLogin) );
-          } else {
-            window.localStorage.removeItem("user");
-          }
+          if( !model.hasError() ) {
+            global.app.auth = model.get("auth");
 
-          $.mobile.navigate( "#home" );
+            if( $('#salvarConta option:selected:first').val() == 1 ) {
+              window.localStorage.setItem("user", JSON.stringify(dadosLogin) );
+            } else {
+              window.localStorage.removeItem("user");
+            }
+            this.router.navigate("#home", {trigger: true});
+            // this.router.navigate('#home');
+          } else {
+            if(!event)
+              $.ui.loadContent(me.pageId);
+          }
         },
         error: function(model, xhr){
-          alert(xhr)
+          FlashMessage.error("O Expresso nesse momento está fora do ar.")
         },
         complete: function() {
-          $.mobile.loading("hide");
+          $.ui.hideMask("");
         }
       });
     }

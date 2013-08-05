@@ -1,11 +1,13 @@
 <li>
-    <a href="#message?${message.msgID}">
-        <h3>${message.msgFrom.mailAddress}</h3>
+    <a href="#message?${message.msgID}" data-ignore="true">
         <% if(message.msgSeen != 1) { %>
-            <img src="resources/icons/unread-email-icon.png" alt="Não Lida" class="ui-li-icon unread_email_image">
+            <img src="resources/icons/unread-email-icon.png" alt="Não Lida" class="unread-email-image">
         <% } %>
-        <p>${message.msgSubject}</p>
-        <p>${message.msgBodyResume}</p>
-        <p class="ui-li-aside"><strong>${message.msgDate}</strong></p>
+        <div class="item-content">
+            <h3>${message.msgFrom.mailAddress}</h3>
+            <p>${message.msgSubject}</p>
+            <p>${message.msgBodyResume}</p>
+            <p class="message-datetime">${message.msgDate}</p>
+        </div>
     </a>
 </li>

@@ -1,8 +1,17 @@
-#folderPage a.ui-link-inherit {
-  padding-left: 30px
+#folderPage div.item-content {
+  padding-left: 30px;
 }
-#folderPage img.unread_email_image {
-  padding-top: 25px;
+
+#folderPage img.unread-email-image {
+  position: absolute;
+  top: 25px;
+}
+
+#folderPage .message-datetime {
+  position: absolute;
+  right: 10px;
+  bottom: 1px;
+  font-size: 11px;
 }
 
 .flash-message{
