@@ -2,13 +2,14 @@
 // =============
 
 // Includes file dependencies
-define([ "jquery", "backbone", "global", "cache",
+define([ "backbone", "global", "cache",
   "views/loginView", "views/homeView", "views/folderView", "views/messageView", "views/messageFormView",
   "models/folderModel", "models/messageModel",
   "text!templates/loginPage.html", "text!templates/homePage.html", "text!templates/folderPage.html", "text!templates/messagePage.html",
-  "text!templates/messageFormPage.html" ],
+  "text!templates/messageFormPage.html",
+  "af" ],
 
-  function( $, Backbone, global, Cache,
+  function( Backbone, global, Cache,
     LoginView, HomeView, FolderView, MessageView, MessageFormView,
     FolderModel, MessageModel,
     loginPageTemplate, homePageTemplate, folderPageTemplate, messagePageTemplate,
@@ -19,14 +20,11 @@ define([ "jquery", "backbone", "global", "cache",
 
     // The Router constructor
     initialize: function() {
-      $("body").append(_.template(loginPageTemplate))
-        .append(_.template(homePageTemplate))
-        .append(_.template(folderPageTemplate))
-        .append(_.template(messagePageTemplate))
-        .append(_.template(messageFormPageTemplate));
-
-      // Tells Backbone to start watching for hashchange events
-      Backbone.history.start();
+      $("#content").append(loginPageTemplate)
+        .append(homePageTemplate)
+        .append(folderPageTemplate)
+        .append(messagePageTemplate)
+        .append(messageFormPageTemplate);
     },
 
     // Backbone.js Routes
@@ -48,6 +46,10 @@ define([ "jquery", "backbone", "global", "cache",
 
     home: function() {
       if(this.canAccess()) {
+
+        $.ui.enableSideMenu();
+        $("#header #menubadge").css("display", "show");
+
         if( Cache.Views.home ) {
           Cache.Views.home.render();
         } else {
@@ -104,7 +106,7 @@ define([ "jquery", "backbone", "global", "cache",
       if(global.app.auth) {
         return true;
       } else {
-        $.mobile.navigate( "#login" );
+        this.navigate("#login");
         return false;
       }
     }

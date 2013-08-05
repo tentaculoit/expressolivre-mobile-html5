@@ -1,4 +1,4 @@
-define(["jquery", "backbone", "global"], function($, Backbone, global) {
+define(["backbone", "global", "af"], function(Backbone, global) {
 
   var FolderModel = Backbone.Model.extend({
     urlRoot: global.app.service + "/Mail/Folders",

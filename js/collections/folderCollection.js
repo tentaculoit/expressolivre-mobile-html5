@@ -1,4 +1,4 @@
-define(["jquery", "backbone", "global", "models/folderModel"], function($, Backbone, global, FolderModel) {
+define(["backbone", "global", "models/folderModel", "af"], function(Backbone, global, FolderModel) {
 
   var FolderCollection = Backbone.Collection.extend({
     model: FolderModel,

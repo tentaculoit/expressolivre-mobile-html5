@@ -1,14 +1,10 @@
-<div data-role="page" id="folderPage">
-    <div data-role="panel" id="defaultPanel" data-swipe-close="true">
-    </div><!-- /panel -->
+<div class="panel" title="Login" id="folderPage" style="">
+    <header>
+        <h1 id="title"></h1>
+        <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton selected"></a>
+        <a href="#messageForm?new" class="button" style="float: right" data-ignore="true">Novo</a>
+    </header>
 
-    <div data-role="header" data-position="fixed">
-        <a href="#defaultPanel" class="ui-icon-nodisc" data-role="button" data-iconshadow="false" data-icon="bars" data-iconpos="notext" data-inline="true">Menu</a>
-        <h1 class="title" id="title"></h1>
-        <a href="#messageForm?new" data-icon="edit" data-iconpos="notext">Nova Mensagem</a>
-    </div>
-    <div data-role="content">
-        <ul data-role="listview" id="messageList" class="ui-icon-alt">
-        </ul>
-    </div>
+    <ul class="list" id="messageList">
+    </ul>
 </div><!-- /page -->

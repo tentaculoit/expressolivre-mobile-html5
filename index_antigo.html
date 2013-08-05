@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expresso</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="resources/css/lib/jquery/style.css" />
+    <link rel="stylesheet" href="resources/css/main.css" />
+    <script src="js/libs/require.js" data-main="js/mobile"></script>
+</head>
+<body>
+    <div id="menuBlock" style="display: none">
+    </div>
+</body>
+</html>
+
+<script type="text/template" id="menuTemplate">
+    <ul data-role="listview" class="nav-search" id="menuList">
+        <li id="menuTitle">Expresso</li>
+        <li><a href="#logout">Sair</a></li>
+    </ul>
+</script>
+
+<script type="text/template" id="menu-item-template">
+    <li class="menu-folder-item"><a href="#folder?${folder.idToUrl}">${folder.folderName}</a></li>
+</script>

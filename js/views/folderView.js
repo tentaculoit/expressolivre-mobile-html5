@@ -1,7 +1,8 @@
-define(["jquery", "backbone", "global", "cache", "flashMessage",
+define(["backbone", "global", "cache", "flashMessage",
   "collections/messageCollection",
   "models/messageModel",
-  "text!templates/messageListBlock.html"], function($, Backbone, global, Cache, FlashMessage,
+  "text!templates/messageListBlock.html",
+  "af"], function(Backbone, global, Cache, FlashMessage,
     MessageCollection,
     MessageModel,
     messageListBlockTemplate) {
@@ -30,7 +31,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       if( messagesCollection ) {
         me.renderSuccessCallback(messagesCollection);
       } else {
-        $.mobile.loading("show", { text: "Carregando Emails", textVisible: true });
+        $.ui.showMask("Carregando Emails...");
 
         messagesCollection = new MessageCollection( { model: messageFilter } );
 
@@ -45,7 +46,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
             FlashMessage.error("Não foi possível carregar as mensagens da pasta " + Cache.currentFolder.get("folderName") );
           },
           complete: function() {
-            $.mobile.loading("hide");
+            $.ui.hideMask("");
           }
         });
       }
@@ -64,14 +65,10 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
 
       var messageListSelector = $(me.pageId + ' #messageList');
 
-      messageListSelector.html($.parseHTML(messages)) ;
+      messageListSelector.html(messages) ;
 
-      //se a página já foi carregada uma vez, dá um refresh no listview
-      if(messageListSelector.hasClass('ui-listview'))
-        messageListSelector.listview('refresh');
-
-      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
-      $(me.pageId + ' #defaultPanel').panel( "close" );
+      // $.ui.updatePanel(id,content);
+      $.ui.loadContent(me.pageId);
     }
   });
 
