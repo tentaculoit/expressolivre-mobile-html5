@@ -1,6 +1,7 @@
-define(["jquery", "backbone", "global", "cache", "flashMessage",
+define(["backbone", "global", "cache", "flashMessage",
   "models/messageModel",
-  "text!templates/messageFormBlock.html"], function($, Backbone, global, Cache, FlashMessage,
+  "text!templates/messageFormBlock.html",
+  "af"], function(Backbone, global, Cache, FlashMessage,
     MessageModel,
     messageFormBlockTemplate) {
 
@@ -40,7 +41,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
         $(me.pageId).trigger('create');
       }
 
-      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+      $.ui.loadContent(me.pageId);
 
     },
 
@@ -87,7 +88,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
     send: function(event){
       var me = this;
       if(event) event.preventDefault();
-      $.mobile.loading("show", { text: "Enviando Email", textVisible: true });
+      $.ui.showMask("Enviando Email...");
 
       var bodyToReplyOrForward = $('#bodyToReplyOrForward').html();
       if(bodyToReplyOrForward != "") bodyToReplyOrForward = "<br><br>" + bodyToReplyOrForward;
@@ -109,7 +110,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
           FlashMessage.error("Não foi possível enviar o email");
         },
         complete: function() {
-          $.mobile.loading("hide");
+          $.ui.hideMask("");
         }
       });
     },

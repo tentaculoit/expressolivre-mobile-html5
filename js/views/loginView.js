@@ -1,5 +1,6 @@
-define(["jquery", "backbone", "global", "flashMessage",
-  "models/userModel"], function($, Backbone, global, FlashMessage,
+define(["backbone", "global", "flashMessage",
+  "models/userModel",
+  "af"], function(Backbone, global, FlashMessage,
     UserModel) {
 
   var LoginView = Backbone.View.extend({
@@ -10,6 +11,8 @@ define(["jquery", "backbone", "global", "flashMessage",
     },
 
     initialize: function() {
+      $.ui.disableSideMenu();
+
       var me = this;
 
       var user = window.localStorage.getItem("user");
@@ -21,19 +24,19 @@ define(["jquery", "backbone", "global", "flashMessage",
 
         if( window.localStorage.getItem("keepOnLoginPage") ) {
           window.localStorage.removeItem("keepOnLoginPage");
-          $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+          $.ui.loadContent(me.pageId);
         } else {
           this.login();
         }
       } else {
-        $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+        $.ui.loadContent(me.pageId);
       };
     },
 
     login: function(event) {
       var me = this;
       if(event) event.preventDefault();
-      $.mobile.loading("show", { text: "Logando", textVisible: true });
+      $.ui.showMask("Logando...");
 
       var dadosLogin = { user: $('#user').val(), password: $('#password').val() };
       var user = new UserModel( dadosLogin );
@@ -48,18 +51,18 @@ define(["jquery", "backbone", "global", "flashMessage",
             } else {
               window.localStorage.removeItem("user");
             }
-
-            $.mobile.navigate( "#home" );
+            this.router.navigate("#home", {trigger: true});
+            // this.router.navigate('#home');
           } else {
             if(!event)
-              $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+              $.ui.loadContent(me.pageId);
           }
         },
         error: function(model, xhr){
           FlashMessage.error("O Expresso nesse momento está fora do ar.")
         },
         complete: function() {
-          $.mobile.loading("hide");
+          $.ui.hideMask("");
         }
       });
     }

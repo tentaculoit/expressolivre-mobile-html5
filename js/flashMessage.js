@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(["af"], function() {
 
   var FlashMessage = {
     serverErrors: {

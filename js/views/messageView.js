@@ -1,6 +1,7 @@
-define(["jquery", "backbone", "global", "cache", "flashMessage",
+define(["backbone", "global", "cache", "flashMessage",
   "models/messageModel",
-  "text!templates/messageShowBlock.html"], function($, Backbone, global, Cache, FlashMessage,
+  "text!templates/messageShowBlock.html",
+  "af"], function(Backbone, global, Cache, FlashMessage,
     MessageModel,
     messageShowBlockTemplate) {
 
@@ -27,7 +28,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       } else {
         messageModel    = new MessageModel({ msgID: me.messageID, folderID: Cache.currentFolder.get("folderID")})
 
-        $.mobile.loading("show", { text: "Carregando Email", textVisible: true });
+        $.ui.showMask("Carregando Email...");
 
         messageModel.fetch({
           success: function(message){
@@ -36,10 +37,10 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
             me.renderSuccessCallback(message);
           },
           error: function(collection, xhr){
-            FlashMessage.success("Não foi possível carregar esse email");
+            FlashMessage.error("Não foi possível carregar esse email");
           },
           complete: function() {
-            $.mobile.loading("hide");
+            $.ui.hideMask("");
           }
         });
       }
@@ -59,7 +60,7 @@ define(["jquery", "backbone", "global", "cache", "flashMessage",
       Cache.currentMessage = message;
 
       $(me.pageId + " a.backButton").attr("href","#folder?" + Cache.currentFolder.idToUrl());
-      $.mobile.changePage( me.pageId, { reverse: false, changeHash: false } );
+      $.ui.loadContent(me.pageId);
     },
 
     remove: function(event) {
